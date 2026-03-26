@@ -10,23 +10,24 @@ export default function Header() {
   const pathname = usePathname();
 
   const navLinks = [
-    { label: 'Explore Mentors', href: '/explore' },
+    { label: 'Home', href: '/' },
     { label: 'Universities', href: '/university' },
-    { label: 'Forum', href: '/forum' },
+    { label: 'Become a Mentor', href: '/mentor' },
+    { label: 'Explore Mentors', href: '/explore' },
   ];
 
-  const isActive = (path: string) => pathname?.startsWith(path);
+  const isActive = (path: string) => path === '/' ? pathname === '/' : pathname?.startsWith(path);
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[#ffffff]/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-[#1E3A8A] flex items-center justify-center text-[#ffffff] font-display font-bold text-xl shadow-md">I</div>
-            <span className="font-display font-bold text-2xl tracking-tight text-gray-900">InsideUni</span>
+        <div className="flex justify-between items-center h-16 relative">
+          <Link href="/" className="flex items-center gap-3 relative z-10">
+            <div className="w-9 h-9 rounded-lg bg-[#1E3A8A] flex items-center justify-center text-[#ffffff] font-['Inter',_'Helvetica',_sans-serif] font-bold text-xl shadow-md">I</div>
+            <span className="font-['Inter',_'Helvetica',_sans-serif] font-bold text-2xl tracking-tight text-gray-900">InsideUni</span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
             {navLinks.map((link) => (
               <Link 
                 key={link.href}
@@ -40,12 +41,9 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center gap-5">
-            <Link href="/login" className="text-sm font-semibold text-gray-600 hover:text-[#1E3A8A] transition-colors">
-              Log in
-            </Link>
+          <div className="hidden md:flex items-center gap-5 relative z-10">
             <Link href="/register" className="text-sm font-semibold bg-[#1E3A8A] text-[#ffffff] px-5 py-2.5 rounded-lg shadow-[0_4px_14px_0_rgba(30,58,138,0.39)] hover:shadow-[0_6px_20px_rgba(30,58,138,0.23)] hover:-translate-y-0.5 transition-all duration-200">
-              Sign up
+              Access the network.
             </Link>
           </div>
 
@@ -74,8 +72,7 @@ export default function Header() {
               </Link>
             ))}
             <div className="border-t border-gray-200 pt-4 mt-2 flex flex-col gap-2">
-              <Link href="/login" className="block text-center px-3 py-2 rounded-md text-base font-semibold text-gray-900 hover:bg-[#F3F4F6] border border-transparent" onClick={() => setIsMobileMenuOpen(false)}>Log in</Link>
-              <Link href="/register" className="block text-center px-3 py-2 rounded-md text-base font-semibold bg-[#1E3A8A] text-[#ffffff] hover:bg-opacity-90" onClick={() => setIsMobileMenuOpen(false)}>Sign up</Link>
+              <Link href="/register" className="block text-center px-3 py-2 rounded-md text-base font-semibold bg-[#1E3A8A] text-[#ffffff] hover:bg-opacity-90" onClick={() => setIsMobileMenuOpen(false)}>Access the network.</Link>
             </div>
           </div>
         </div>

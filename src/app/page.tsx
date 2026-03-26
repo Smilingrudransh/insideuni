@@ -13,8 +13,7 @@ export default function LandingPage() {
           <Link href="/explore">Explore Mentors</Link>
         </div>
         <div className="nav-r">
-          <Link href="/login" className="btn-ghost">Log in</Link>
-          <Link href="/register" className="btn-nav">Sign up free →</Link>
+          <Link href="/register" className="btn-nav">Access the network.</Link>
         </div>
       </nav>
 
