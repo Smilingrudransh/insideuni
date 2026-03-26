@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InsideUni — Real Students. Real Guidance.</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300;1,9..144,500;1,9..144,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f3ef;--bg2:#ede9e3;--white:#fff;--border:#e2ddd6;--border2:#ccc7be;
+  --accent:#2047d4;--accent-h:#1a38b0;--accent2:#0ea5e9;--coral:#f56040;
+  --gold:#d97706;--sage:#3d8b6e;--text:#1a1714;--text2:#4a4540;--muted:#8c867e;
+  --li-accent:rgba(32,71,212,.07);--li-coral:rgba(245,96,64,.08);
+  --li-sage:rgba(61,139,110,.08);--li-gold:rgba(217,119,6,.08);
+  --radius:22px;--radius-sm:14px;--radius-xs:10px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;overflow-x:hidden;cursor:none}
+
+/* ── CURSOR ── */
+#cur{position:fixed;width:10px;height:10px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .18s,height .18s,background .18s;mix-blend-mode:multiply}
+#cur-r{position:fixed;width:34px;height:34px;border:1.5px solid rgba(32,71,212,.3);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .2s}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:66px;padding:0 56px;display:flex;align-items:center;justify-content:space-between;background:rgba(245,243,239,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Fraunces',serif;font-weight:700;font-size:21px;color:var(--accent);letter-spacing:-.5px;cursor:pointer;font-style:italic;display:flex;align-items:center;gap:1px}
+.logo span{font-style:normal;color:var(--text)}
+.nav-links{display:flex;gap:32px}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:13.5px;font-weight:400;transition:color .2s;cursor:pointer}
+.nav-links a:hover,.nav-links a.active{color:var(--accent)}
+.nav-r{display:flex;align-items:center;gap:12px}
+.btn-ghost{background:none;border:none;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--text2);cursor:pointer;transition:color .2s;padding:8px 4px}
+.btn-ghost:hover{color:var(--accent)}
+.btn-nav{background:var(--accent);color:#fff;border:none;padding:9px 20px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:transform .2s,box-shadow .2s,background .2s;box-shadow:0 2px 14px rgba(32,71,212,.25)}
+.btn-nav:hover{transform:translateY(-1px);box-shadow:0 4px 22px rgba(32,71,212,.35);background:var(--accent-h)}
+
+/* ── PAGE SHELL ── */
+.page{display:none;min-height:100vh;padding-top:66px;animation:pageIn .35s ease}
+.page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ── SHARED BUTTONS ── */
+.btn-primary{background:var(--accent);color:#fff;border:none;padding:13px 26px;border-radius:100px;font-size:14.5px;font-weight:600;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:7px;transition:transform .2s,box-shadow .2s,background .2s;box-shadow:0 3px 18px rgba(32,71,212,.28)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(32,71,212,.38);background:var(--accent-h)}
+.btn-outline{background:var(--white);color:var(--text);border:1.5px solid var(--border2);padding:12px 24px;border-radius:100px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:border-color .2s,background .2s,transform .2s;box-shadow:0 1px 5px rgba(0,0,0,.05)}
+.btn-outline:hover{border-color:var(--accent);background:#f0f4ff;transform:translateY(-1px)}
+.section-label{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.section-label span{display:block;width:24px;height:1.5px;background:var(--border2)}
+h2.serif{font-family:'Fraunces',serif;font-size:clamp(32px,4vw,52px);line-height:1.08;letter-spacing:-2px}
+h2.serif em{font-style:italic;color:var(--accent)}
+.sub{color:var(--text2);font-size:15.5px;line-height:1.73;font-weight:300;margin-top:14px}
+.chip{font-size:11px;font-weight:500;padding:4px 10px;border-radius:100px;border:1px solid}
+.chip-blue{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+.chip-green{background:#f0fdf4;border-color:#bbf7d0;color:#15803d}
+.chip-coral{background:#fff7ed;border-color:#fed7aa;color:#c2410c}
+.chip-purple{background:#f5f3ff;border-color:#ddd6fe;color:#6d28d9}
+.chip-amber{background:#fffbeb;border-color:#fde68a;color:#b45309}
+.chip-gray{background:#f9fafb;border-color:#e5e7eb;color:#374151}
+
+/* ═══════════════════════════════════
+   HOME PAGE
+═══════════════════════════════════ */
+.hero{position:relative;min-height:calc(100vh - 66px);padding:64px 56px 72px;display:flex;align-items:center;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 68% 40%,rgba(32,71,212,.05),transparent 65%),radial-gradient(ellipse 50% 50% at 18% 75%,rgba(245,96,64,.04),transparent 60%)}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:72px;align-items:center;max-width:1200px;width:100%;margin:0 auto;position:relative;z-index:2}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--border);padding:6px 14px 6px 8px;border-radius:100px;font-size:11.5px;font-weight:500;color:var(--text2);margin-bottom:26px;box-shadow:0 1px 7px rgba(0,0,0,.05)}
+.eyebrow-badge{background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px;letter-spacing:.03em;text-transform:uppercase}
+h1.hero-h{font-family:'Fraunces',serif;font-size:clamp(42px,5.5vw,70px);line-height:1.02;letter-spacing:-2.5px;margin-bottom:24px}
+h1.hero-h em{font-style:italic;color:var(--accent)}
+.hero-sub{color:var(--text2);font-size:16.5px;line-height:1.72;max-width:430px;margin-bottom:36px;font-weight:300}
+.hero-ctas{display:flex;gap:11px;flex-wrap:wrap;align-items:center}
+.proof-row{display:flex;align-items:center;gap:18px;margin-top:36px;flex-wrap:wrap}
+.av-stack{display:flex}.av-sm{width:32px;height:32px;border-radius:50%;border:2px solid var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin-left:-8px}.av-sm:first-child{margin-left:0}
+.av-blue{background:#dbeafe;color:#1d4ed8}.av-amber{background:#fef3c7;color:#b45309}.av-green{background:#d1fae5;color:#065f46}.av-purple{background:#ede9fe;color:#6d28d9}.av-coral{background:#fee2e2;color:#b91c1c}.av-pink{background:#fce7f3;color:#9d174d}
+.proof-txt{font-size:12.5px;color:var(--text2)}.proof-txt strong{color:var(--text)}
+.proof-div{width:1px;height:26px;background:var(--border)}
+.proof-stat{text-align:left}
+.p-num{font-family:'Fraunces',serif;font-size:21px;font-weight:700;color:var(--accent);letter-spacing:-.5px;line-height:1}
+.p-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+
+/* Floating cards */
+.float-wrap{position:relative;height:520px}
+.fc{position:absolute;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:0 4px 22px rgba(0,0,0,.07),0 1px 4px rgba(0,0,0,.04);min-width:218px;cursor:pointer;transition:box-shadow .3s,border-color .3s}
+.fc:hover{box-shadow:0 10px 40px rgba(32,71,212,.11),0 3px 12px rgba(0,0,0,.05);border-color:rgba(32,71,212,.18)}
+.fc1{top:12px;left:4px;animation:fl1 6.5s ease-in-out infinite}
+.fc2{top:126px;right:0;animation:fl2 7.5s ease-in-out infinite 1.2s}
+.fc3{bottom:108px;left:18px;animation:fl3 5.8s ease-in-out infinite .6s}
+.fc4{bottom:16px;right:14px;min-width:192px;animation:fl1 7s ease-in-out infinite 2s}
+.fbadge{position:absolute;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:11px 14px;box-shadow:0 4px 18px rgba(0,0,0,.07);display:flex;align-items:center;gap:9px;font-size:11.5px}
+.fb1{top:280px;left:-12px;animation:fl2 9s ease-in-out infinite 3.5s}
+.fb2{top:44px;right:-16px;animation:fl3 8s ease-in-out infinite 5s}
+.fb3{bottom:175px;right:-12px;animation:fl1 7.5s ease-in-out infinite 1.8s}
+.ch{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:14px;font-weight:700;flex-shrink:0}
+.cname{font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:4px}
+.cuni{font-size:11px;color:var(--muted);margin-top:2px;display:flex;align-items:center;gap:3px}
+.vbadge{width:13px;height:13px;background:var(--accent);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:7px;color:#fff;font-weight:800}
+.ctag-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+.cft{border-top:1px solid var(--border);padding-top:10px;display:flex;align-items:center;justify-content:space-between}
+.cprice{font-family:'Fraunces',serif;font-size:17px;font-weight:700;color:var(--accent)}
+.cpunit{font-size:9.5px;color:var(--muted);margin-top:1px}
+.cstars{font-size:11px;color:#f59e0b;letter-spacing:1px}
+.csess{font-size:10px;color:var(--muted);margin-top:1px}
+.cbtn{width:100%;margin-top:12px;background:var(--li-accent);color:var(--accent);border:1px solid rgba(32,71,212,.13);border-radius:100px;padding:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .2s}
+.cbtn:hover{background:var(--accent);color:#fff}
+
+/* Ticker */
+.ticker-wrap{overflow:hidden;padding:52px 0;position:relative}
+.ticker-wrap::before,.ticker-wrap::after{content:'';position:absolute;top:0;bottom:0;width:160px;z-index:2}
+.ticker-wrap::before{left:0;background:linear-gradient(to right,var(--bg),transparent)}
+.ticker-wrap::after{right:0;background:linear-gradient(to left,var(--bg),transparent)}
+.ticker-track{display:flex;gap:14px;width:max-content;animation:ticker 30s linear infinite}
+.upill{background:var(--white);border:1px solid var(--border);border-radius:100px;padding:9px 18px;display:flex;align-items:center;gap:8px;white-space:nowrap;font-size:13px;color:var(--text2);box-shadow:0 1px 4px rgba(0,0,0,.04);transition:border-color .2s,color .2s;cursor:pointer}
+.upill:hover{border-color:rgba(32,71,212,.3);color:var(--accent)}
+
+/* How grid */
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-top:52px}
+.hstep{background:var(--white);padding:34px 30px;transition:background .3s;position:relative;overflow:hidden}
+.hstep::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--accent),var(--accent2));transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.hstep:hover{background:#fafbff}.hstep:hover::before{transform:scaleX(1)}
+.hnum{font-family:'Fraunces',serif;font-size:40px;font-weight:700;color:var(--border2);letter-spacing:-2px;margin-bottom:14px;display:block;transition:color .3s}
+.hstep:hover .hnum{color:rgba(32,71,212,.12)}
+.hemoji{font-size:26px;margin-bottom:14px;display:block}
+.hstep h3{font-family:'Fraunces',serif;font-size:19px;font-weight:500;margin-bottom:9px;letter-spacing:-.4px}
+.hstep p{color:var(--text2);font-size:13px;line-height:1.72;font-weight:300}
+
+/* Bento */
+.bento{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:14px;margin-top:52px}
+.bcard{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:30px;transition:box-shadow .3s,transform .3s,border-color .3s;position:relative;overflow:hidden}
+.bcard:hover{box-shadow:0 10px 36px rgba(0,0,0,.08);transform:translateY(-3px);border-color:var(--border2)}
+.bwide{grid-column:span 2}.btall{grid-row:span 2}
+.bicon{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:21px;margin-bottom:18px}
+.bi-blue{background:#eff6ff}.bi-green{background:#f0fdf4}.bi-amber{background:#fffbeb}.bi-coral{background:#fff7ed}.bi-purple{background:#f5f3ff}
+.bcard h3{font-family:'Fraunces',serif;font-size:19px;font-weight:500;letter-spacing:-.4px;margin-bottom:9px}
+.bcard p{color:var(--text2);font-size:13px;line-height:1.72;font-weight:300}
+.bnum{font-family:'Fraunces',serif;font-size:54px;font-weight:700;letter-spacing:-3px;color:var(--accent);line-height:1;margin-top:8px}
+.btag-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}
+.btag{font-size:11px;font-weight:500;padding:4px 11px;border-radius:100px;background:var(--li-accent);color:var(--accent);border:1px solid rgba(32,71,212,.12)}
+
+/* Testimonials */
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:52px}
+.tcard{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:26px;transition:box-shadow .3s,border-color .3s}
+.tcard:hover{box-shadow:0 8px 30px rgba(0,0,0,.07);border-color:var(--border2)}
+.tstars{color:#f59e0b;font-size:12px;margin-bottom:13px;letter-spacing:2px}
+.ttext{font-size:13.5px;line-height:1.78;color:var(--text2);font-weight:300;margin-bottom:18px;font-family:'Fraunces',serif;font-style:italic}
+.ttext strong{font-style:normal;color:var(--text);font-weight:500;font-family:'Plus Jakarta Sans',sans-serif}
+.tauthor{display:flex;align-items:center;gap:9px}
+.tav{width:35px;height:35px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;flex-shrink:0}
+.tname{font-size:12.5px;font-weight:600}.trole{font-size:10.5px;color:var(--muted);margin-top:1px}
+
+/* Home CTA */
+.hcta{background:var(--accent);border-radius:28px;padding:72px;position:relative;overflow:hidden;display:grid;grid-template-columns:1fr auto;gap:56px;align-items:center}
+.hcta::before{content:'';position:absolute;top:-50px;right:-50px;width:360px;height:360px;border-radius:50%;background:rgba(255,255,255,.05)}
+.hcta::after{content:'';position:absolute;bottom:-70px;left:28%;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.04)}
+.hcta-l{position:relative;z-index:1}
+.hcta h2{color:#fff;font-family:'Fraunces',serif;font-size:clamp(28px,3.5vw,48px);letter-spacing:-2px;line-height:1.1}
+.hcta h2 em{color:rgba(255,255,255,.6);font-style:italic}
+.hcta-sub{color:rgba(255,255,255,.72);font-size:15px;line-height:1.7;margin-top:12px;font-weight:300;max-width:400px}
+.hcta-stats{display:flex;gap:24px;margin-top:28px;flex-wrap:wrap}
+.hcta-stat{color:rgba(255,255,255,.65);font-size:12px;display:flex;align-items:center;gap:5px}
+.hcta-stat::before{content:'✓';color:rgba(255,255,255,.45);font-size:10px}
+.hcta-r{position:relative;z-index:1;flex-shrink:0;display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+.btn-white{background:#fff;color:var(--accent);border:none;padding:13px 26px;border-radius:100px;font-size:14.5px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .2s,box-shadow .2s;white-space:nowrap;box-shadow:0 3px 16px rgba(0,0,0,.14)}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(0,0,0,.2)}
+.btn-ghost-w{background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.22);padding:12px 24px;border-radius:100px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:background .2s;white-space:nowrap}
+.btn-ghost-w:hover{background:rgba(255,255,255,.18)}
+.live-badge{display:inline-flex;align-items:center;gap:6px;background:#f0fdf4;border:1px solid #bbf7d0;padding:4px 11px;border-radius:100px;font-size:11.5px;color:#15803d;font-weight:500}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:pulse 1.5s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+
+/* Section wrapper */
+.sw{padding:88px 56px;max-width:1200px;margin:0 auto}
+.sw-alt{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.sw-alt .sw{padding:88px 56px}
+
+/* ═══════════════════════════════════
+   UNIVERSITIES PAGE
+═══════════════════════════════════ */
+.uni-hero{padding:56px 56px 40px;max-width:1200px;margin:0 auto}
+.uni-hero h1{font-family:'Fraunces',serif;font-size:clamp(36px,4.5vw,58px);letter-spacing:-2px;line-height:1.06}
+.uni-hero h1 em{font-style:italic;color:var(--accent)}
+.uni-search-bar{display:flex;align-items:center;gap:12px;margin-top:32px;background:var(--white);border:1.5px solid var(--border);border-radius:100px;padding:8px 8px 8px 20px;box-shadow:0 2px 14px rgba(0,0,0,.06);max-width:640px}
+.uni-search-bar input{flex:1;border:none;background:transparent;font-family:inherit;font-size:14px;color:var(--text);outline:none}
+.uni-search-bar input::placeholder{color:var(--muted)}
+.uni-search-bar button{background:var(--accent);color:#fff;border:none;border-radius:100px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap}
+.uni-filters{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.filter-btn{background:var(--white);border:1.5px solid var(--border);border-radius:100px;padding:7px 16px;font-size:12.5px;font-weight:500;color:var(--text2);cursor:pointer;font-family:inherit;transition:all .2s}
+.filter-btn:hover,.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.uni-stats-bar{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:18px 56px;display:flex;gap:40px;max-width:none}
+.ust{text-align:center}
+.ust-num{font-family:'Fraunces',serif;font-size:24px;font-weight:700;color:var(--accent);letter-spacing:-.5px}
+.ust-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.uni-grid-wrap{padding:40px 56px 80px;max-width:1200px;margin:0 auto}
+.uni-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.ucard{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:box-shadow .3s,transform .3s,border-color .3s}
+.ucard:hover{box-shadow:0 10px 36px rgba(0,0,0,.09);transform:translateY(-4px);border-color:var(--border2)}
+.ucard-banner{height:88px;display:flex;align-items:center;justify-content:center;font-size:36px;position:relative}
+.ucard-body{padding:22px}
+.ucard-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.ucard-name{font-family:'Fraunces',serif;font-size:16.5px;font-weight:500;letter-spacing:-.3px;line-height:1.2}
+.ucard-country{font-size:11px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:4px}
+.ucard-mentors{background:var(--li-accent);border:1px solid rgba(32,71,212,.12);border-radius:100px;padding:3px 10px;font-size:11px;font-weight:600;color:var(--accent);white-space:nowrap;flex-shrink:0}
+.ucard-chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+.ucard-foot{border-top:1px solid var(--border);padding-top:12px;display:flex;align-items:center;justify-content:space-between}
+.ucard-price{font-size:12px;color:var(--muted)}
+.ucard-price span{color:var(--text);font-weight:600}
+.ucard-rating{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:3px}
+.ucard-rating .star{color:#f59e0b}
+.no-results{text-align:center;padding:60px 20px;color:var(--muted);font-size:15px}
+
+/* ═══════════════════════════════════
+   BECOME A MENTOR PAGE
+═══════════════════════════════════ */
+.mentor-hero{background:linear-gradient(135deg,#f0f4ff 0%,#f5f3ef 60%);border-bottom:1px solid var(--border);padding:72px 56px;overflow:hidden;position:relative}
+.mentor-hero::after{content:'';position:absolute;top:-60px;right:-60px;width:400px;height:400px;border-radius:50%;background:rgba(32,71,212,.04);pointer-events:none}
+.mentor-hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.mentor-hero h1{font-family:'Fraunces',serif;font-size:clamp(38px,5vw,64px);letter-spacing:-2.5px;line-height:1.04}
+.mentor-hero h1 em{font-style:italic;color:var(--accent)}
+.mentor-hero-sub{color:var(--text2);font-size:16px;line-height:1.72;max-width:420px;font-weight:300;margin-top:18px;margin-bottom:32px}
+.earn-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:0 4px 22px rgba(0,0,0,.07)}
+.earn-card h3{font-family:'Fraunces',serif;font-size:18px;font-weight:500;margin-bottom:18px;letter-spacing:-.3px}
+.earn-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13.5px}
+.earn-row:last-of-type{border-bottom:none}
+.earn-label{color:var(--text2);font-weight:300}
+.earn-val{font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:var(--accent)}
+.earn-total{background:var(--li-accent);border:1px solid rgba(32,71,212,.12);border-radius:var(--radius-xs);padding:14px 16px;margin-top:14px;display:flex;justify-content:space-between;align-items:center}
+.earn-total-label{font-size:12.5px;font-weight:600;color:var(--text)}
+.earn-total-num{font-family:'Fraunces',serif;font-size:26px;font-weight:700;color:var(--accent);letter-spacing:-.5px}
+.earn-note{font-size:11px;color:var(--muted);margin-top:10px;text-align:center}
+
+/* Steps */
+.mentor-steps{max-width:1200px;margin:0 auto;padding:72px 56px}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:48px;position:relative}
+.steps-grid::before{content:'';position:absolute;top:36px;left:10%;right:10%;height:1px;background:linear-gradient(to right,transparent,var(--border),var(--border),transparent);z-index:0}
+.mstep{text-align:center;position:relative;z-index:1}
+.mstep-num{width:60px;height:60px;border-radius:50%;background:var(--white);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--accent);box-shadow:0 2px 12px rgba(0,0,0,.06);transition:background .3s,border-color .3s}
+.mstep:hover .mstep-num{background:var(--accent);color:#fff;border-color:var(--accent)}
+.mstep h3{font-family:'Fraunces',serif;font-size:16px;font-weight:500;margin-bottom:8px}
+.mstep p{font-size:12.5px;color:var(--text2);line-height:1.66;font-weight:300}
+
+/* Benefits bento */
+.mbento{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px}
+.mbcard{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:28px;display:flex;gap:16px;align-items:flex-start;transition:box-shadow .3s,transform .3s}
+.mbcard:hover{box-shadow:0 8px 30px rgba(0,0,0,.07);transform:translateY(-2px)}
+.mbicon{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.mbcard h3{font-family:'Fraunces',serif;font-size:16px;font-weight:500;margin-bottom:6px;letter-spacing:-.2px}
+.mbcard p{font-size:12.5px;color:var(--text2);line-height:1.66;font-weight:300}
+
+/* Mentor signup form */
+.mentor-form-section{background:var(--white);border-top:1px solid var(--border);padding:72px 56px}
+.mentor-form-inner{max-width:680px;margin:0 auto}
+.mentor-form-inner h2{font-family:'Fraunces',serif;font-size:clamp(28px,3.5vw,44px);letter-spacing:-1.5px;margin-bottom:8px}
+.mentor-form-inner .sub{margin-bottom:40px;max-width:420px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.form-field{margin-bottom:16px}
+.form-field label{display:block;font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:7px;letter-spacing:.01em}
+.form-field input,.form-field select,.form-field textarea{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-xs);padding:11px 14px;font-size:13.5px;font-family:inherit;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(32,71,212,.08)}
+.form-field textarea{resize:vertical;min-height:90px}
+.form-field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238c867e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.field-hint{font-size:11px;color:var(--muted);margin-top:5px}
+.expertise-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.ex-chip-sel{font-size:12px;padding:6px 13px;border-radius:100px;border:1.5px solid var(--border);cursor:pointer;transition:all .2s;color:var(--text2);background:var(--white);font-weight:500;font-family:inherit}
+.ex-chip-sel.selected,.ex-chip-sel:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.form-submit{width:100%;margin-top:24px;padding:15px;font-size:15px}
+.form-agree{font-size:12px;color:var(--muted);text-align:center;margin-top:14px}
+.form-agree a{color:var(--accent);text-decoration:none}
+
+/* FAQ */
+.faq-section{max-width:760px;margin:0 auto;padding:72px 56px}
+.faq-item{border-bottom:1px solid var(--border);padding:18px 0}
+.faq-q{display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-size:15px;font-weight:500}
+.faq-q:hover{color:var(--accent)}
+.faq-icon{width:22px;height:22px;border-radius:50%;background:var(--li-accent);border:1px solid rgba(32,71,212,.15);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--accent);flex-shrink:0;transition:transform .3s}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+.faq-a{font-size:13.5px;color:var(--text2);line-height:1.72;font-weight:300;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s}
+.faq-item.open .faq-a{max-height:200px;padding-top:12px}
+
+/* Social proof mentor */
+.mentor-proof-strip{background:var(--li-accent);border-top:1px solid rgba(32,71,212,.08);border-bottom:1px solid rgba(32,71,212,.08);padding:40px 56px}
+.mproof-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+.mproof{text-align:center}
+.mproof-num{font-family:'Fraunces',serif;font-size:34px;font-weight:700;color:var(--accent);letter-spacing:-1.5px}
+.mproof-lbl{font-size:11.5px;color:var(--text2);margin-top:4px}
+
+/* ═══════════════════════════════════
+   AUTH PAGE
+═══════════════════════════════════ */
+.auth-page{min-height:calc(100vh - 66px);display:grid;grid-template-columns:1fr 1fr}
+.auth-left{background:var(--accent);padding:56px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.auth-left::before{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;border-radius:50%;background:rgba(255,255,255,.06)}
+.auth-left::after{content:'';position:absolute;bottom:-60px;left:-40px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.04)}
+.auth-left-content{position:relative;z-index:1}
+.auth-left h2{font-family:'Fraunces',serif;font-size:clamp(28px,3.5vw,46px);color:#fff;letter-spacing:-2px;line-height:1.1;margin-bottom:18px}
+.auth-left h2 em{font-style:italic;color:rgba(255,255,255,.65)}
+.auth-left p{color:rgba(255,255,255,.72);font-size:15px;line-height:1.7;font-weight:300;max-width:360px}
+.auth-benefits{margin-top:36px;display:flex;flex-direction:column;gap:14px}
+.auth-benefit{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,.85);font-size:13.5px}
+.auth-benefit-icon{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.auth-left-footer{position:relative;z-index:1}
+.auth-testimonial{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:var(--radius-sm);padding:20px}
+.auth-testimonial p{color:rgba(255,255,255,.85);font-size:13px;line-height:1.68;font-style:italic;font-family:'Fraunces',serif;margin-bottom:14px}
+.auth-testimonial-author{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.7);font-size:12px}
+.auth-testimonial-av{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+
+.auth-right{background:var(--bg);padding:56px;display:flex;align-items:center;justify-content:center;overflow-y:auto}
+.auth-form-wrap{width:100%;max-width:420px}
+.auth-tabs{display:flex;background:var(--white);border:1px solid var(--border);border-radius:100px;padding:4px;margin-bottom:32px;gap:4px}
+.auth-tab{flex:1;text-align:center;padding:9px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s,color .2s;color:var(--muted);border:none;font-family:inherit;background:transparent}
+.auth-tab.active{background:var(--accent);color:#fff}
+.auth-title{font-family:'Fraunces',serif;font-size:26px;font-weight:500;letter-spacing:-.8px;margin-bottom:6px}
+.auth-subtitle{font-size:13px;color:var(--muted);margin-bottom:28px}
+.role-toggle{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.role-opt{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:14px;cursor:pointer;transition:all .2s;text-align:center}
+.role-opt:hover{border-color:rgba(32,71,212,.3);background:#f0f4ff}
+.role-opt.selected{border-color:var(--accent);background:var(--li-accent)}
+.role-icon{font-size:22px;margin-bottom:6px;display:block}
+.role-name{font-size:13px;font-weight:600;color:var(--text)}
+.role-desc{font-size:10.5px;color:var(--muted);margin-top:2px}
+.divider-line{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--muted);font-size:12px}
+.divider-line::before,.divider-line::after{content:'';flex:1;height:1px;background:var(--border)}
+.social-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:11px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-xs);font-size:13.5px;font-weight:500;cursor:pointer;font-family:inherit;color:var(--text);transition:border-color .2s,box-shadow .2s;margin-bottom:10px}
+.social-btn:hover{border-color:var(--border2);box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.social-icon{width:18px;height:18px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:12px}
+.auth-form .form-field input{background:var(--white)}
+.auth-submit{width:100%;padding:13px;font-size:14.5px;margin-top:8px}
+.auth-switch{text-align:center;margin-top:20px;font-size:13px;color:var(--muted)}
+.auth-switch a{color:var(--accent);font-weight:600;text-decoration:none;cursor:pointer}
+.password-wrap{position:relative}
+.password-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px;padding:0}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:48px 56px;display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:44px}
+.footer-brand .logo{font-size:19px;display:block;margin-bottom:10px}
+.fdesc{font-size:12.5px;color:var(--muted);line-height:1.7;max-width:200px;font-weight:300}
+.fcol h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text);margin-bottom:14px}
+.fcol a{display:block;font-size:13px;color:var(--muted);text-decoration:none;margin-bottom:9px;transition:color .2s;cursor:pointer}
+.fcol a:hover{color:var(--accent)}
+.fbot{border-top:1px solid var(--border);padding:20px 56px;display:flex;align-items:center;justify-content:space-between}
+.fcopy{font-size:12px;color:var(--muted)}
+
+/* ANIMATIONS */
+@keyframes fl1{0%,100%{transform:translateY(0) rotate(-.7deg)}50%{transform:translateY(-15px) rotate(.7deg)}}
+@keyframes fl2{0%,100%{transform:translateY(-6px) rotate(.7deg)}50%{transform:translateY(10px) rotate(-.5deg)}}
+@keyframes fl3{0%,100%{transform:translateY(3px) rotate(.4deg)}50%{transform:translateY(-12px) rotate(-.9deg)}}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.reveal.vis{opacity:1;transform:none}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .hero{padding:44px 20px 52px}.hero-grid{grid-template-columns:1fr;gap:40px}.float-wrap{height:340px}
+  .fc2,.fc4,.fb2,.fb3{display:none}
+  .sw{padding:60px 20px}
+  .sw-alt .sw{padding:60px 20px}
+  .how-grid{grid-template-columns:1fr}
+  .bento{grid-template-columns:1fr}.bwide,.btall{grid-column:span 1;grid-row:span 1}
+  .tgrid{grid-template-columns:1fr}
+  .hcta{grid-template-columns:1fr;padding:44px 28px}.hcta-r{align-items:flex-start}
+  .uni-hero{padding:40px 20px 28px}
+  .uni-stats-bar{padding:16px 20px;gap:24px;overflow-x:auto}
+  .uni-grid-wrap{padding:28px 20px 60px}
+  .uni-grid{grid-template-columns:1fr 1fr}
+  .mentor-hero{padding:48px 20px}
+  .mentor-hero-inner{grid-template-columns:1fr;gap:40px}
+  .mentor-steps{padding:52px 20px}
+  .steps-grid{grid-template-columns:1fr 1fr;gap:20px}.steps-grid::before{display:none}
+  .mbento{grid-template-columns:1fr}
+  .mentor-form-section{padding:52px 20px}
+  .faq-section{padding:52px 20px}
+  .mentor-proof-strip{padding:36px 20px}
+  .mproof-inner{grid-template-columns:1fr 1fr;gap:20px}
+  .auth-page{grid-template-columns:1fr}.auth-left{display:none}
+  .auth-right{padding:32px 20px}
+  footer{grid-template-columns:1fr 1fr;gap:32px;padding:44px 20px}
+  .fbot{padding:18px 20px;flex-direction:column;gap:8px;text-align:center}
+  .form-row{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .uni-grid{grid-template-columns:1fr}
+  .steps-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cur"></div><div id="cur-r"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="go('home')">Inside<span>Uni</span></div>
+  <div class="nav-links">
+    <a onclick="go('home')" id="nl-home" class="active">Home</a>
+    <a onclick="go('universities')" id="nl-universities">Universities</a>
+    <a onclick="go('mentor')" id="nl-mentor">Become a Mentor</a>
+    <a onclick="go('home')" id="nl-explore">Explore Mentors</a>
+  </div>
+  <div class="nav-r">
+    <button class="btn-ghost" onclick="go('auth')">Log in</button>
+    <button class="btn-nav" onclick="go('auth')">Sign up free →</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HOME PAGE ═══════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow"><span class="eyebrow-badge">New</span> 500+ verified mentors · 200+ universities</div>
+        <h1 class="hero-h">Guidance from<br><em>students who've</em><br>actually been there.</h1>
+        <p class="hero-sub">Talk to real students at your dream university. Get honest answers about admissions, scholarships, student life — no consultancy bias.</p>
+        <div class="hero-ctas">
+          <button class="btn-primary" onclick="go('universities')">Find Your Mentor →</button>
+          <button class="btn-outline" onclick="go('mentor')">Become a Mentor</button>
+        </div>
+        <div class="proof-row">
+          <div class="av-stack">
+            <div class="av-sm av-blue">AK</div><div class="av-sm av-amber">PS</div>
+            <div class="av-sm av-green">RV</div><div class="av-sm av-purple">NJ</div>
+          </div>
+          <div class="proof-txt"><strong>10,000+</strong> sessions completed</div>
+          <div class="proof-div"></div>
+          <div class="proof-stat"><div class="p-num">4.9★</div><div class="p-lbl">Avg rating</div></div>
+          <div class="proof-div"></div>
+          <div class="proof-stat"><div class="p-num">₹199</div><div class="p-lbl">Starts from</div></div>
+        </div>
+      </div>
+      <div class="float-wrap">
+        <div class="fc fc1">
+          <div class="ch"><div class="av av-blue">AK</div><div><div class="cname">Arjun Kumar <div class="vbadge">✓</div></div><div class="cuni">🇺🇸 MIT · CS PhD Y2</div></div></div>
+          <div class="ctag-row"><span class="chip chip-blue">Admissions</span><span class="chip chip-green">Research</span><span class="chip chip-coral">SOP</span></div>
+          <div class="cft"><div><div class="cprice">₹399</div><div class="cpunit">/ 30 min</div></div><div style="text-align:right"><div class="cstars">★★★★★</div><div class="csess">127 sessions</div></div></div>
+          <button class="cbtn" onclick="go('auth')">Book Session →</button>
+        </div>
+        <div class="fc fc2">
+          <div class="ch"><div class="av av-amber">PS</div><div><div class="cname">Priya Sharma <div class="vbadge">✓</div></div><div class="cuni">🇬🇧 Oxford · MBA</div></div></div>
+          <div class="ctag-row"><span class="chip chip-purple">Student Life</span><span class="chip chip-green">Visa</span></div>
+          <div class="cft"><div><div class="cprice">₹299</div><div class="cpunit">/ 30 min</div></div><div style="text-align:right"><div class="cstars">★★★★★</div><div class="csess">84 sessions</div></div></div>
+        </div>
+        <div class="fc fc3">
+          <div class="ch"><div class="av av-purple">RV</div><div><div class="cname">Rahul Verma <div class="vbadge">✓</div></div><div class="cuni">🇩🇪 TU Munich · MS</div></div></div>
+          <div class="ctag-row"><span class="chip chip-blue">Housing</span><span class="chip chip-amber">DAAD</span></div>
+          <div class="cft"><div><div class="cprice">₹249</div><div class="cpunit">/ 30 min</div></div><div style="text-align:right"><div class="cstars">★★★★☆</div><div class="csess">52 sessions</div></div></div>
+        </div>
+        <div class="fc fc4">
+          <div class="ch"><div class="av av-green" style="width:36px;height:36px;font-size:12px">SJ</div><div><div class="cname" style="font-size:12.5px">Sneha Jain <div class="vbadge">✓</div></div><div class="cuni" style="font-size:10px">🇸🇬 NUS · Data Science</div></div></div>
+          <div class="cft" style="margin-top:8px;padding-top:8px"><div class="cprice" style="font-size:15px">₹199</div><div class="cstars" style="font-size:10px">★★★★★</div></div>
+        </div>
+        <div class="fbadge fb1"><span style="font-size:17px">🟢</span><div><div style="font-size:12px;font-weight:600">3 live sessions</div><div style="font-size:10px;color:var(--muted)">Happening right now</div></div></div>
+        <div class="fbadge fb2"><span style="font-size:17px">🎓</span><div><div style="font-size:12px;font-weight:600">200+ Universities</div><div style="font-size:10px;color:var(--muted)">30 countries covered</div></div></div>
+        <div class="fbadge fb3"><span style="font-size:17px">⭐</span><div><div style="font-size:12px;font-weight:600">4.9 / 5.0</div><div style="font-size:10px;color:var(--muted)">2,400+ reviews</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-track" id="tt">
+      <div class="upill" onclick="go('universities')">🇺🇸 MIT</div><div class="upill" onclick="go('universities')">🇺🇸 Stanford</div>
+      <div class="upill" onclick="go('universities')">🇬🇧 Oxford</div><div class="upill" onclick="go('universities')">🇬🇧 Cambridge</div>
+      <div class="upill" onclick="go('universities')">🇺🇸 Harvard</div><div class="upill" onclick="go('universities')">🇨🇭 ETH Zurich</div>
+      <div class="upill" onclick="go('universities')">🇸🇬 NUS Singapore</div><div class="upill" onclick="go('universities')">🇩🇪 TU Munich</div>
+      <div class="upill" onclick="go('universities')">🇬🇧 Imperial College</div><div class="upill" onclick="go('universities')">🇨🇦 Toronto</div>
+      <div class="upill" onclick="go('universities')">🇦🇺 Melbourne</div><div class="upill" onclick="go('universities')">🇺🇸 Carnegie Mellon</div>
+      <div class="upill" onclick="go('universities')">🇺🇸 Yale</div><div class="upill" onclick="go('universities')">🇫🇷 HEC Paris</div>
+      <div class="upill" onclick="go('universities')">🇳🇱 TU Delft</div><div class="upill" onclick="go('universities')">🇰🇷 KAIST</div>
+      <div class="upill" onclick="go('universities')">🇺🇸 MIT</div><div class="upill" onclick="go('universities')">🇺🇸 Stanford</div>
+      <div class="upill" onclick="go('universities')">🇬🇧 Oxford</div><div class="upill" onclick="go('universities')">🇬🇧 Cambridge</div>
+      <div class="upill" onclick="go('universities')">🇺🇸 Harvard</div><div class="upill" onclick="go('universities')">🇨🇭 ETH Zurich</div>
+      <div class="upill" onclick="go('universities')">🇸🇬 NUS Singapore</div><div class="upill" onclick="go('universities')">🇩🇪 TU Munich</div>
+      <div class="upill" onclick="go('universities')">🇬🇧 Imperial College</div><div class="upill" onclick="go('universities')">🇨🇦 Toronto</div>
+      <div class="upill" onclick="go('universities')">🇦🇺 Melbourne</div><div class="upill" onclick="go('universities')">🇺🇸 Carnegie Mellon</div>
+      <div class="upill" onclick="go('universities')">🇺🇸 Yale</div><div class="upill" onclick="go('universities')">🇫🇷 HEC Paris</div>
+      <div class="upill" onclick="go('universities')">🇳🇱 TU Delft</div><div class="upill" onclick="go('universities')">🇰🇷 KAIST</div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="sw reveal">
+    <div class="section-label"><span></span>How it works<span></span></div>
+    <h2 class="serif">Three steps to your <em>dream admission</em></h2>
+    <p class="sub" style="max-width:420px">No middlemen. No bias. Just real conversations with students who've actually been there.</p>
+    <div class="how-grid">
+      <div class="hstep"><span class="hnum">01</span><span class="hemoji">🔍</span><h3>Search & Filter</h3><p>Browse verified mentors by university, course, language, and budget. Every profile shows real session reviews.</p></div>
+      <div class="hstep"><span class="hnum">02</span><span class="hemoji">📅</span><h3>Book a Session</h3><p>Pick a 15, 30, or 60-minute slot. Pay securely via UPI or card. Add your questions in advance.</p></div>
+      <div class="hstep"><span class="hnum">03</span><span class="hemoji">💬</span><h3>Connect & Learn</h3><p>Join your video session. Get honest, first-hand answers about admissions, scholarships, visa and student life.</p></div>
+    </div>
+  </div>
+
+  <!-- WHY -->
+  <div class="sw-alt"><div class="sw reveal">
+    <div class="section-label"><span></span>Why InsideUni<span></span></div>
+    <h2 class="serif">Everything consultancies <em>can't give you</em></h2>
+    <div class="bento">
+      <div class="bcard bwide"><div class="bicon bi-blue">🛡️</div><h3>Zero consultancy bias</h3><p>No university pays us to send you there. Our mentors give you the unfiltered truth — good and bad — about their campus, courses and admission experience.</p><div class="btag-row"><span class="btag">Honest advice</span><span class="btag">No kickbacks</span><span class="btag">Student-first</span></div></div>
+      <div class="bcard"><div class="bicon bi-green">✓</div><h3>Verified mentors</h3><p>Every mentor verifies with their official university email. Real students only — no consultants.</p><div class="bnum">500+</div></div>
+      <div class="bcard btall" style="background:var(--accent);border-color:var(--accent)"><div class="bicon" style="background:rgba(255,255,255,.12)">⚡</div><h3 style="color:#fff">10× cheaper</h3><p style="color:rgba(255,255,255,.72)">Consultancies charge ₹50,000+. Sessions here start at ₹199. Get better, more authentic advice.</p><div style="margin-top:auto;padding-top:24px"><div style="font-family:'Fraunces',serif;font-size:50px;font-weight:700;color:#fff;letter-spacing:-3px;line-height:1">₹199</div><div style="font-size:12px;color:rgba(255,255,255,.55);margin-top:5px">to start your journey</div></div></div>
+      <div class="bcard"><div class="bicon bi-amber">🌐</div><h3>200+ Universities</h3><p>US, UK, Canada, Germany, Singapore, Australia. Every major course covered across 30+ countries.</p></div>
+      <div class="bcard"><div class="bicon bi-coral">🏆</div><h3>Star-rated quality</h3><p>Every mentor is rated after each session. Low-rated mentors are removed automatically.</p><div class="bnum" style="font-size:40px">4.9★</div></div>
+    </div>
+  </div></div>
+
+  <!-- TESTIMONIALS -->
+  <div class="sw reveal">
+    <div class="section-label"><span></span>Student Stories<span></span></div>
+    <h2 class="serif">They made it. <em>With a little help.</em></h2>
+    <div class="tgrid">
+      <div class="tcard"><div class="tstars">★★★★★</div><p class="ttext">"Spent 3 sessions with an MIT PhD student who helped me <strong>restructure my entire SOP</strong>. Got my admit 2 weeks later. Worth every rupee."</p><div class="tauthor"><div class="tav av-blue">DM</div><div><div class="tname">Divya Mehta</div><div class="trole">Now at MIT EECS PhD, 2024</div></div></div></div>
+      <div class="tcard"><div class="tstars">★★★★★</div><p class="ttext">"Mentor told me <strong>exactly which professors to email at Stanford</strong> and how to write the message. Got 2 replies in one week."</p><div class="tauthor"><div class="tav av-amber">KS</div><div><div class="tname">Karan Singh</div><div class="trole">Stanford MS CS, Batch 2025</div></div></div></div>
+      <div class="tcard"><div class="tstars">★★★★★</div><p class="ttext">"Confused about DAAD? One session with an Indian student at TU Munich <strong>cleared everything</strong>. Yeh platform literally gold hai."</p><div class="tauthor"><div class="tav av-purple">NJ</div><div><div class="tname">Nisha Joshi</div><div class="trole">TU Munich · DAAD Scholar</div></div></div></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="sw reveal">
+    <div class="hcta">
+      <div class="hcta-l">
+        <div class="live-badge" style="margin-bottom:18px"><span class="live-dot"></span>3 sessions happening right now</div>
+        <h2>Your dream university is one <em>conversation away.</em></h2>
+        <p class="hcta-sub">Join 10,000+ students who got real guidance from people who've actually been there.</p>
+        <div class="hcta-stats"><span class="hcta-stat">Starts at ₹199</span><span class="hcta-stat">Verified mentors</span><span class="hcta-stat">100% unbiased</span><span class="hcta-stat">Secure payments</span></div>
+      </div>
+      <div class="hcta-r">
+        <button class="btn-white" onclick="go('auth')">Find Your Mentor →</button>
+        <button class="btn-ghost-w" onclick="go('mentor')">Become a Mentor</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="home-footer"></div>
+</div>
+
+<!-- ═══════════════════ UNIVERSITIES PAGE ═══════════════════ -->
+<div class="page" id="page-universities">
+  <div class="uni-hero">
+    <div class="section-label"><span></span>Explore<span></span></div>
+    <h1 style="font-family:'Fraunces',serif;font-size:clamp(34px,4.5vw,58px);letter-spacing:-2px;line-height:1.06">Browse universities &amp; find <em>your mentor</em></h1>
+    <p class="sub" style="max-width:500px;margin-top:12px">200+ universities across 30+ countries. Every university shows verified mentors, their courses, and average session price.</p>
+    <div class="uni-search-bar">
+      <span style="font-size:16px;color:var(--muted)">🔍</span>
+      <input type="text" id="uni-search" placeholder="Search university, country, or course..." oninput="filterUnis()">
+      <button onclick="filterUnis()">Search</button>
+    </div>
+    <div class="uni-filters">
+      <button class="filter-btn active" onclick="setFilter('All',this)">All Countries</button>
+      <button class="filter-btn" onclick="setFilter('🇺🇸 USA',this)">🇺🇸 USA</button>
+      <button class="filter-btn" onclick="setFilter('🇬🇧 UK',this)">🇬🇧 UK</button>
+      <button class="filter-btn" onclick="setFilter('🇩🇪 Germany',this)">🇩🇪 Germany</button>
+      <button class="filter-btn" onclick="setFilter('🇨🇦 Canada',this)">🇨🇦 Canada</button>
+      <button class="filter-btn" onclick="setFilter('🇸🇬 Singapore',this)">🇸🇬 Singapore</button>
+      <button class="filter-btn" onclick="setFilter('🇦🇺 Australia',this)">🇦🇺 Australia</button>
+      <button class="filter-btn" onclick="setFilter('🇨🇭 Switzerland',this)">🇨🇭 Switzerland</button>
+      <button class="filter-btn" onclick="setFilter('🇳🇱 Netherlands',this)">🇳🇱 Netherlands</button>
+    </div>
+  </div>
+
+  <div class="uni-stats-bar">
+    <div style="max-width:1200px;margin:0 auto;display:flex;gap:40px;width:100%">
+      <div class="ust"><div class="ust-num">224</div><div class="ust-lbl">Universities</div></div>
+      <div class="ust"><div class="ust-num">513</div><div class="ust-lbl">Verified Mentors</div></div>
+      <div class="ust"><div class="ust-num">30+</div><div class="ust-lbl">Countries</div></div>
+      <div class="ust"><div class="ust-num">4.9★</div><div class="ust-lbl">Avg Rating</div></div>
+      <div class="ust"><div class="ust-num">₹199</div><div class="ust-lbl">Min Price</div></div>
+    </div>
+  </div>
+
+  <div class="uni-grid-wrap">
+    <div class="uni-grid" id="uni-grid"></div>
+    <div class="no-results" id="uni-noresult" style="display:none">No universities found. Try a different search.</div>
+  </div>
+
+  <div id="uni-footer"></div>
+</div>
+
+<!-- ═══════════════════ BECOME A MENTOR PAGE ═══════════════════ -->
+<div class="page" id="page-mentor">
+
+  <!-- HERO -->
+  <div class="mentor-hero">
+    <div class="mentor-hero-inner">
+      <div>
+        <div class="section-label"><span></span>Become a Mentor<span></span></div>
+        <h1 class="mentor-hero">Share your <em>experience</em>,<br>earn on your schedule.</h1>
+        <p class="mentor-hero-sub">You worked hard to get into your university. Help the next generation of students do the same — and earn ₹5,000–₹40,000/month doing it.</p>
+        <div style="display:flex;gap:11px;flex-wrap:wrap">
+          <button class="btn-primary" onclick="document.getElementById('mentor-form-section').scrollIntoView({behavior:'smooth'})">Apply to be a Mentor →</button>
+          <button class="btn-outline" onclick="document.getElementById('mentor-faq').scrollIntoView({behavior:'smooth'})">See how it works</button>
+        </div>
+        <div style="display:flex;gap:24px;margin-top:28px;flex-wrap:wrap">
+          <div style="font-size:12.5px;color:var(--text2);display:flex;align-items:center;gap:6px"><span style="color:var(--sage);font-size:14px">✓</span>Free to join</div>
+          <div style="font-size:12.5px;color:var(--text2);display:flex;align-items:center;gap:6px"><span style="color:var(--sage);font-size:14px">✓</span>Set your own price</div>
+          <div style="font-size:12.5px;color:var(--text2);display:flex;align-items:center;gap:6px"><span style="color:var(--sage);font-size:14px">✓</span>Choose your hours</div>
+          <div style="font-size:12.5px;color:var(--text2);display:flex;align-items:center;gap:6px"><span style="color:var(--sage);font-size:14px">✓</span>Paid within 3 days</div>
+        </div>
+      </div>
+      <div class="earn-card">
+        <h3>💰 Estimate your earnings</h3>
+        <div class="earn-row"><span class="earn-label">Sessions per week</span><span class="earn-val" id="sess-count">8 sessions</span></div>
+        <input type="range" min="1" max="20" value="8" style="width:100%;margin:8px 0 16px;accent-color:var(--accent)" oninput="calcEarnings(this.value)">
+        <div class="earn-row"><span class="earn-label">Price per session (30 min)</span><span class="earn-val">₹399</span></div>
+        <div class="earn-row"><span class="earn-label">Your share (80%)</span><span class="earn-val">₹319</span></div>
+        <div class="earn-row"><span class="earn-label">Monthly earnings</span><span class="earn-val" id="monthly-earn">₹10,208</span></div>
+        <div class="earn-total">
+          <span class="earn-total-label">Annual potential</span>
+          <span class="earn-total-num" id="annual-earn">₹1,22,500</span>
+        </div>
+        <p class="earn-note">Based on ₹399/session · 80% payout · 4 weeks/month</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROOF STRIP -->
+  <div class="mentor-proof-strip">
+    <div class="mproof-inner">
+      <div class="mproof"><div class="mproof-num">513</div><div class="mproof-lbl">Active mentors on platform</div></div>
+      <div class="mproof"><div class="mproof-num">₹38K</div><div class="mproof-lbl">Highest monthly earning</div></div>
+      <div class="mproof"><div class="mproof-num">4.9★</div><div class="mproof-lbl">Average mentor rating</div></div>
+      <div class="mproof"><div class="mproof-num">3 days</div><div class="mproof-lbl">Average payout time</div></div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS FOR MENTORS -->
+  <div class="mentor-steps">
+    <div class="section-label"><span></span>The Process<span></span></div>
+    <h2 class="serif">How to get started <em>in 4 steps</em></h2>
+    <div class="steps-grid">
+      <div class="mstep"><div class="mstep-num">01</div><h3>Apply Online</h3><p>Fill out a quick form with your university, course, and what you can help with. Takes under 5 minutes.</p></div>
+      <div class="mstep"><div class="mstep-num">02</div><h3>Verify Your Email</h3><p>Receive a verification link on your official university email (.edu / .ac.uk etc.) to confirm you're a real student.</p></div>
+      <div class="mstep"><div class="mstep-num">03</div><h3>Set Up Your Profile</h3><p>Add your photo, bio, expertise areas, availability, and session pricing. Go live in minutes.</p></div>
+      <div class="mstep"><div class="mstep-num">04</div><h3>Start Earning</h3><p>Students book sessions, you guide them, and receive 80% of every session fee directly to your UPI / bank.</p></div>
+    </div>
+  </div>
+
+  <!-- BENEFITS -->
+  <div class="sw-alt"><div class="sw">
+    <div class="section-label"><span></span>Why Mentors Love It<span></span></div>
+    <h2 class="serif">Built for <em>busy students</em></h2>
+    <div class="mbento">
+      <div class="mbcard"><div class="mbicon bi-blue">📅</div><div><h3>Complete schedule control</h3><p>Open or close your calendar anytime. Take a week off during exams. No commitments, no pressure. You decide when you're available.</p></div></div>
+      <div class="mbcard"><div class="mbicon bi-green">💸</div><div><h3>Earn in INR, get paid fast</h3><p>Set your own price per session. Receive 80% directly to your UPI or bank account within 3 working days of each completed session.</p></div></div>
+      <div class="mbcard"><div class="mbicon bi-amber">🎯</div><div><h3>Only relevant students</h3><p>Our matching system only shows your profile to students interested in your university and course. No random bookings.</p></div></div>
+      <div class="mbcard"><div class="mbicon bi-coral">🛡️</div><div><h3>Platform handles everything</h3><p>Payments, video calls, reminders, cancellations, refunds — InsideUni handles it all. You just show up and talk.</p></div></div>
+      <div class="mbcard"><div class="mbicon bi-purple">🏅</div><div><h3>Build your reputation</h3><p>Every 5-star review builds your mentor profile. Top mentors get featured on the homepage and earn 2–3× more over time.</p></div></div>
+      <div class="mbcard"><div class="mbicon bi-green">🌐</div><div><h3>Make a real difference</h3><p>You know how hard the journey is. Now help others navigate it. Students who get real guidance are 3× more likely to get admitted.</p></div></div>
+    </div>
+  </div></div>
+
+  <!-- MENTOR TESTIMONIALS -->
+  <div class="sw">
+    <div class="section-label"><span></span>Mentor Stories<span></span></div>
+    <h2 class="serif">What our mentors <em>are saying</em></h2>
+    <div class="tgrid">
+      <div class="tcard"><div class="tstars">★★★★★</div><p class="ttext">"I earn <strong>₹18,000–22,000 every month</strong> from InsideUni. Takes maybe 4–5 hours a week. It's genuinely the best side income I've found as a PhD student."</p><div class="tauthor"><div class="tav av-blue">AK</div><div><div class="tname">Arjun Kumar</div><div class="trole">MIT CS PhD · 127 sessions</div></div></div></div>
+      <div class="tcard"><div class="tstars">★★★★★</div><p class="ttext">"I love that <strong>students come prepared with specific questions</strong>. Every session feels meaningful. And the payout always arrives on time — no chasing."</p><div class="tauthor"><div class="tav av-amber">PS</div><div><div class="tname">Priya Sharma</div><div class="trole">Oxford MBA · 84 sessions</div></div></div></div>
+      <div class="tcard"><div class="tstars">★★★★★</div><p class="ttext">"Helped <strong>16 Indian students get into German universities</strong> this year alone. InsideUni makes it easy — I just answer questions I've already lived through."</p><div class="tauthor"><div class="tav av-purple">RV</div><div><div class="tname">Rahul Verma</div><div class="trole">TU Munich · 52 sessions</div></div></div></div>
+    </div>
+  </div>
+
+  <!-- APPLY FORM -->
+  <div class="mentor-form-section" id="mentor-form-section">
+    <div class="mentor-form-inner">
+      <div class="section-label"><span></span>Apply Now<span></span></div>
+      <h2 class="serif">Start your mentor <em>journey</em></h2>
+      <p class="sub">Takes under 5 minutes. We'll review your application and reach out within 24 hours.</p>
+      <div class="form-row">
+        <div class="form-field"><label>First Name</label><input type="text" placeholder="Arjun"></div>
+        <div class="form-field"><label>Last Name</label><input type="text" placeholder="Kumar"></div>
+      </div>
+      <div class="form-field"><label>Personal Email</label><input type="email" placeholder="arjun@gmail.com"></div>
+      <div class="form-field"><label>University Email <span style="color:var(--coral)">*</span></label><input type="email" placeholder="arjun@mit.edu"><div class="field-hint">Must be your official .edu / .ac.uk / university email for verification</div></div>
+      <div class="form-row">
+        <div class="form-field"><label>University Name</label><input type="text" placeholder="MIT"></div>
+        <div class="form-field"><label>Country</label>
+          <select><option>🇺🇸 USA</option><option>🇬🇧 UK</option><option>🇩🇪 Germany</option><option>🇨🇦 Canada</option><option>🇸🇬 Singapore</option><option>🇦🇺 Australia</option><option>🇨🇭 Switzerland</option><option>🇳🇱 Netherlands</option><option>🇫🇷 France</option><option>Other</option></select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Course / Program</label><input type="text" placeholder="CS PhD / MBA / MS Robotics"></div>
+        <div class="form-field"><label>Year of Study</label>
+          <select><option>Year 1</option><option>Year 2</option><option>Year 3</option><option>Year 4</option><option>Year 5+</option></select>
+        </div>
+      </div>
+      <div class="form-field">
+        <label>What can you help students with?</label>
+        <div class="expertise-chips">
+          <button class="ex-chip-sel selected" onclick="this.classList.toggle('selected')">Admissions</button>
+          <button class="ex-chip-sel" onclick="this.classList.toggle('selected')">SOP Review</button>
+          <button class="ex-chip-sel" onclick="this.classList.toggle('selected')">Scholarships</button>
+          <button class="ex-chip-sel" onclick="this.classList.toggle('selected')">Visa Process</button>
+          <button class="ex-chip-sel" onclick="this.classList.toggle('selected')">Student Life</button>
+          <button class="ex-chip-sel" onclick="this.classList.toggle('selected')">Housing</button>
+          <button class="ex-chip-sel" onclick="this.classList.toggle('selected')">Research</button>
+          <button class="ex-chip-sel" onclick="this.classList.toggle('selected')">LOR Guidance</button>
+          <button class="ex-chip-sel" onclick="this.classList.toggle('selected')">Job Hunting</button>
+          <button class="ex-chip-sel" onclick="this.classList.toggle('selected')">Course Selection</button>
+        </div>
+      </div>
+      <div class="form-field"><label>Your preferred session price (₹ per 30 min)</label>
+        <select><option>₹199</option><option>₹249</option><option>₹299</option><option selected>₹399</option><option>₹499</option><option>₹599</option><option>₹699+</option></select>
+      </div>
+      <div class="form-field"><label>Tell us about your journey (optional)</label><textarea placeholder="What was your admission journey like? What do you wish someone had told you?"></textarea></div>
+      <button class="btn-primary form-submit" onclick="showToast('🎉 Application submitted! We\'ll reach out within 24 hours.')">Submit Application →</button>
+      <p class="form-agree">By applying, you agree to our <a href="#">Terms of Service</a> and <a href="#">Mentor Guidelines</a>. We respond within 24 hours.</p>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section" id="mentor-faq">
+    <div class="section-label" style="justify-content:center"><span></span>FAQ<span></span></div>
+    <h2 class="serif" style="text-align:center;font-size:clamp(26px,3vw,40px)">Common <em>questions</em></h2>
+    <div style="margin-top:36px">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>How much can I realistically earn?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a">Our mentors earn between ₹5,000 and ₹38,000 per month depending on how many sessions they take. With 8 sessions/week at ₹399 each, you'd earn ~₹10,200/month. Most mentors spend only 4–6 hours per week on sessions.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>How does verification work?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a">After you apply, we send a verification link to your official university email (e.g. @mit.edu or @ox.ac.uk). Clicking it confirms you're a genuine student. Your profile gets a "Verified" badge which students trust more — verified mentors get 3× more bookings.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>When and how do I get paid?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a">You receive 80% of every session fee. Payments are processed within 3 working days of session completion — directly to your UPI ID or Indian bank account. No paperwork, no delays.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>What if I need to cancel a session?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a">You can cancel any session with at least 24 hours notice with no penalty. Cancellations within 24 hours affect your response rate score. Repeated last-minute cancellations may affect your profile ranking — but life happens and we understand emergencies.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Do I need to be an Indian student?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a">Not at all! While our primary audience is Indian students applying abroad, any student enrolled at a recognized university can become a mentor on InsideUni. We welcome international mentors too.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span>Is InsideUni free to join as a mentor?</span><div class="faq-icon">+</div></div>
+        <div class="faq-a">Completely free. There are no signup fees, no monthly charges, and no hidden costs. InsideUni takes a 20% platform commission only when you complete a session. If you don't earn, we don't earn.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="mentor-footer"></div>
+</div>
+
+<!-- ═══════════════════ AUTH PAGE ═══════════════════ -->
+<div class="page" id="page-auth">
+  <div class="auth-page">
+    <div class="auth-left">
+      <div class="auth-left-content">
+        <div class="logo" style="color:#fff;margin-bottom:36px;-webkit-text-fill-color:#fff">Inside<span style="color:rgba(255,255,255,.65)">Uni</span></div>
+        <h2>Your dream university<br>is one <em>conversation away.</em></h2>
+        <p style="margin-top:14px">Join 10,000+ students getting real guidance from people who've actually been to their dream universities.</p>
+        <div class="auth-benefits">
+          <div class="auth-benefit"><div class="auth-benefit-icon">🎓</div><span>Access 500+ verified mentors at top universities worldwide</span></div>
+          <div class="auth-benefit"><div class="auth-benefit-icon">💬</div><span>1-on-1 video sessions starting at just ₹199</span></div>
+          <div class="auth-benefit"><div class="auth-benefit-icon">🛡️</div><span>100% unbiased — no university pays us to recommend them</span></div>
+          <div class="auth-benefit"><div class="auth-benefit-icon">⚡</div><span>Book in under 2 minutes, get answers in hours</span></div>
+        </div>
+      </div>
+      <div class="auth-left-footer">
+        <div class="auth-testimonial">
+          <p>"One session with an MIT student gave me more useful advice than 3 months with a consultancy. InsideUni is genuinely different."</p>
+          <div class="auth-testimonial-author">
+            <div class="auth-testimonial-av">DM</div>
+            <span>Divya Mehta · Now at MIT EECS PhD</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="auth-right">
+      <div class="auth-form-wrap">
+        <!-- TABS -->
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Log in</button>
+          <button class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Sign up free</button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <div id="form-login">
+          <div class="auth-title">Welcome back</div>
+          <div class="auth-subtitle">Log in to your InsideUni account</div>
+          <button class="social-btn"><div class="social-icon">🌐</div>Continue with Google</button>
+          <div class="divider-line">or continue with email</div>
+          <div class="form-field auth-form"><label>Email</label><input type="email" placeholder="you@example.com"></div>
+          <div class="form-field auth-form"><label>Password</label>
+            <div class="password-wrap"><input type="password" id="pw-login" placeholder="••••••••"><button class="password-toggle" onclick="togglePw('pw-login',this)">👁</button></div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-top:-8px;margin-bottom:16px"><a href="#" style="font-size:12.5px;color:var(--accent);text-decoration:none">Forgot password?</a></div>
+          <button class="btn-primary auth-submit" onclick="showToast('👋 Logged in successfully! Redirecting...')">Log in →</button>
+          <div class="auth-switch">Don't have an account? <a onclick="switchTab('signup')">Sign up free</a></div>
+        </div>
+
+        <!-- SIGNUP FORM -->
+        <div id="form-signup" style="display:none">
+          <div class="auth-title">Create your account</div>
+          <div class="auth-subtitle">Join InsideUni — it's completely free</div>
+
+          <!-- Role selection -->
+          <div style="font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:10px">I am a...</div>
+          <div class="role-toggle">
+            <div class="role-opt selected" id="role-seeker" onclick="selectRole('seeker')">
+              <span class="role-icon">🎓</span>
+              <div class="role-name">Student / Seeker</div>
+              <div class="role-desc">Looking for guidance</div>
+            </div>
+            <div class="role-opt" id="role-mentor-opt" onclick="selectRole('mentor')">
+              <span class="role-icon">🏫</span>
+              <div class="role-name">Mentor</div>
+              <div class="role-desc">Currently enrolled abroad</div>
+            </div>
+          </div>
+
+          <button class="social-btn"><div class="social-icon">🌐</div>Continue with Google</button>
+          <div class="divider-line">or sign up with email</div>
+
+          <div class="form-row" style="margin-bottom:0">
+            <div class="form-field auth-form"><label>First Name</label><input type="text" placeholder="Arjun"></div>
+            <div class="form-field auth-form"><label>Last Name</label><input type="text" placeholder="Kumar"></div>
+          </div>
+          <div class="form-field auth-form"><label>Email</label><input type="email" placeholder="you@example.com"></div>
+          <div class="form-field auth-form"><label>Password</label>
+            <div class="password-wrap"><input type="password" id="pw-signup" placeholder="Min. 8 characters"><button class="password-toggle" onclick="togglePw('pw-signup',this)">👁</button></div>
+          </div>
+
+          <!-- Seeker fields -->
+          <div id="seeker-fields">
+            <div class="form-field auth-form"><label>Target University / Country</label><input type="text" placeholder="e.g. MIT, Stanford, or USA in general"></div>
+            <div class="form-field auth-form"><label>Course you're applying for</label><input type="text" placeholder="e.g. MS Computer Science"></div>
+          </div>
+
+          <!-- Mentor extra fields -->
+          <div id="mentor-extra-fields" style="display:none">
+            <div class="form-field auth-form"><label>University Email <span style="color:var(--coral)">*</span></label><input type="email" placeholder="you@mit.edu"><div class="field-hint">Required for mentor verification</div></div>
+            <div class="form-row" style="margin-bottom:0">
+              <div class="form-field auth-form"><label>Your University</label><input type="text" placeholder="MIT"></div>
+              <div class="form-field auth-form"><label>Course</label><input type="text" placeholder="CS PhD"></div>
+            </div>
+          </div>
+
+          <button class="btn-primary auth-submit" onclick="showToast('🎉 Account created! Check your email to verify.')">Create Account →</button>
+          <p class="form-agree" style="margin-top:12px">By signing up you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></p>
+          <div class="auth-switch">Already have an account? <a onclick="switchTab('login')">Log in</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER TEMPLATE -->
+<template id="footer-tpl">
+  <footer>
+    <div class="footer-brand"><span class="logo">Inside<span>Uni</span></span><p class="fdesc">Real students. Real advice. No consultancy bias. Made in India 🇮🇳</p></div>
+    <div class="fcol"><h4>Platform</h4><a onclick="go('universities')">Find a Mentor</a><a onclick="go('mentor')">Become a Mentor</a><a onclick="go('universities')">Browse Universities</a><a>Community Forum</a></div>
+    <div class="fcol"><h4>Company</h4><a>About Us</a><a>Blog</a><a>Careers</a><a>Press</a></div>
+    <div class="fcol"><h4>Legal</h4><a>Privacy Policy</a><a>Terms of Service</a><a>Refund Policy</a><a>Contact</a></div>
+  </footer>
+  <div class="fbot"><span class="fcopy">© 2025 InsideUni Technologies Pvt. Ltd.</span><span class="fcopy">Made with ❤️ in Jaipur, India</span></div>
+</template>
+
+<!-- TOAST -->
+<div id="toast" style="position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:#fff;padding:13px 22px;border-radius:100px;font-size:13.5px;font-weight:500;z-index:9999;transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .3s;opacity:0;pointer-events:none;white-space:nowrap;box-shadow:0 4px 22px rgba(0,0,0,.25)"></div>
+
+<script>
+// ── UNIVERSITY DATA ──
+const UNIS=[
+  {name:'MIT',country:'🇺🇸 USA',flag:'🇺🇸',banner:'#dbeafe',emoji:'🏛️',mentors:28,tags:['CS','Engineering','Physics','MBA'],price:399,rating:4.9,sessions:1240},
+  {name:'Stanford University',country:'🇺🇸 USA',flag:'🇺🇸',banner:'#fce7f3',emoji:'🌲',mentors:24,tags:['CS','Business','Medicine','Engineering'],price:349,rating:4.9,sessions:980},
+  {name:'Harvard University',country:'🇺🇸 USA',flag:'🇺🇸',banner:'#fee2e2',emoji:'🎓',mentors:19,tags:['Law','Business','Medicine','Public Policy'],price:499,rating:4.8,sessions:760},
+  {name:'University of Oxford',country:'🇬🇧 UK',flag:'🇬🇧',banner:'#f3e8ff',emoji:'🏰',mentors:22,tags:['PPE','Law','MBA','Sciences'],price:329,rating:4.9,sessions:890},
+  {name:'University of Cambridge',country:'🇬🇧 UK',flag:'🇬🇧',banner:'#d1fae5',emoji:'🎓',mentors:18,tags:['Mathematics','Natural Sciences','Engineering','Law'],price:299,rating:4.8,sessions:720},
+  {name:'ETH Zurich',country:'🇨🇭 Switzerland',flag:'🇨🇭',banner:'#fef3c7',emoji:'⚡',mentors:16,tags:['Engineering','CS','Physics','Architecture'],price:279,rating:4.9,sessions:610},
+  {name:'TU Munich',country:'🇩🇪 Germany',flag:'🇩🇪',banner:'#ecfdf5',emoji:'🔧',mentors:21,tags:['Engineering','CS','Robotics','MBA'],price:249,rating:4.8,sessions:830},
+  {name:'NUS Singapore',country:'🇸🇬 Singapore',flag:'🇸🇬',banner:'#eff6ff',emoji:'🦁',mentors:17,tags:['Business','CS','Engineering','Law'],price:269,rating:4.9,sessions:680},
+  {name:'Carnegie Mellon University',country:'🇺🇸 USA',flag:'🇺🇸',banner:'#fde8d8',emoji:'🤖',mentors:15,tags:['CS','AI','Robotics','Drama'],price:399,rating:4.8,sessions:590},
+  {name:'Imperial College London',country:'🇬🇧 UK',flag:'🇬🇧',banner:'#e0e7ff',emoji:'🔬',mentors:14,tags:['Engineering','Medicine','Business','CS'],price:299,rating:4.8,sessions:540},
+  {name:'University of Toronto',country:'🇨🇦 Canada',flag:'🇨🇦',banner:'#fef9c3',emoji:'🍁',mentors:13,tags:['CS','Medicine','Engineering','Law'],price:249,rating:4.7,sessions:480},
+  {name:'University of Melbourne',country:'🇦🇺 Australia',flag:'🇦🇺',banner:'#d1fae5',emoji:'🦘',mentors:12,tags:['Medicine','Law','Business','Engineering'],price:229,rating:4.7,sessions:410},
+  {name:'TU Delft',country:'🇳🇱 Netherlands',flag:'🇳🇱',banner:'#ede9fe',emoji:'🌷',mentors:10,tags:['Architecture','Civil Engineering','CS','Aerospace'],price:219,rating:4.8,sessions:350},
+  {name:'HEC Paris',country:'🇫🇷 France',flag:'🇫🇷',banner:'#fce7f3',emoji:'🗼',mentors:8,tags:['MBA','Finance','Strategy','Luxury'],price:349,rating:4.8,sessions:290},
+  {name:'KAIST',country:'🇰🇷 South Korea',flag:'🇰🇷',banner:'#fef3c7',emoji:'🚀',mentors:7,tags:['Engineering','CS','Physics','Biotech'],price:199,rating:4.7,sessions:240},
+  {name:'Yale University',country:'🇺🇸 USA',flag:'🇺🇸',banner:'#d1fae5',emoji:'🦌',mentors:11,tags:['Law','Medicine','Art','Social Sciences'],price:399,rating:4.8,sessions:380},
+  {name:'University of British Columbia',country:'🇨🇦 Canada',flag:'🇨🇦',banner:'#dbeafe',emoji:'🌊',mentors:9,tags:['Forestry','Medicine','CS','Business'],price:229,rating:4.7,sessions:310},
+  {name:'EPFL',country:'🇨🇭 Switzerland',flag:'🇨🇭',banner:'#fee2e2',emoji:'⚗️',mentors:8,tags:['CS','Life Sciences','Engineering','Architecture'],price:269,rating:4.8,sessions:270},
+  {name:'LSE',country:'🇬🇧 UK',flag:'🇬🇧',banner:'#fef9c3',emoji:'📊',mentors:13,tags:['Economics','Finance','Law','Political Science'],price:329,rating:4.8,sessions:490},
+  {name:'UNSW Sydney',country:'🇦🇺 Australia',flag:'🇦🇺',banner:'#f0fdf4',emoji:'🌏',mentors:10,tags:['Engineering','Law','Medicine','Business'],price:219,rating:4.7,sessions:360},
+  {name:'Princeton University',country:'🇺🇸 USA',flag:'🇺🇸',banner:'#f3e8ff',emoji:'🐯',mentors:10,tags:['Mathematics','Physics','Policy','Humanities'],price:449,rating:4.9,sessions:340},
+  {name:'Nanyang Tech University',country:'🇸🇬 Singapore',flag:'🇸🇬',banner:'#ecfdf5',emoji:'🏙️',mentors:9,tags:['Business','Engineering','CS','Medicine'],price:249,rating:4.7,sessions:300},
+  {name:'McGill University',country:'🇨🇦 Canada',flag:'🇨🇦',banner:'#fde8d8',emoji:'❄️',mentors:8,tags:['Medicine','Law','Engineering','Business'],price:219,rating:4.7,sessions:260},
+  {name:'KU Leuven',country:'🇧🇪 Belgium',flag:'🇧🇪',banner:'#dbeafe',emoji:'🍺',mentors:6,tags:['Engineering','Medicine','Law','Theology'],price:199,rating:4.7,sessions:180},
+];
+
+let activeFilter='All';
+
+function renderUnis(list){
+  const grid=document.getElementById('uni-grid');
+  const nr=document.getElementById('uni-noresult');
+  if(!list.length){grid.innerHTML='';nr.style.display='block';return}
+  nr.style.display='none';
+  grid.innerHTML=list.map(u=>`
+    <div class="ucard" onclick="showToast('📍 ${u.name} — ${u.mentors} mentors available. Sign in to explore!')">
+      <div class="ucard-banner" style="background:${u.banner}"><span style="font-size:40px">${u.emoji}</span></div>
+      <div class="ucard-body">
+        <div class="ucard-top">
+          <div><div class="ucard-name">${u.name}</div><div class="ucard-country">${u.country}</div></div>
+          <div class="ucard-mentors">${u.mentors} mentors</div>
+        </div>
+        <div class="ucard-chips">${u.tags.slice(0,3).map(t=>`<span class="chip chip-blue" style="font-size:10px;padding:3px 8px">${t}</span>`).join('')}${u.tags.length>3?`<span class="chip chip-gray" style="font-size:10px;padding:3px 8px">+${u.tags.length-3}</span>`:''}</div>
+        <div class="ucard-foot">
+          <div class="ucard-price">From <span>₹${u.price}</span></div>
+          <div class="ucard-rating"><span class="star">★</span>${u.rating} · ${u.sessions} sessions</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterUnis(){
+  const q=document.getElementById('uni-search').value.toLowerCase();
+  let list=UNIS;
+  if(activeFilter!=='All') list=list.filter(u=>u.country.includes(activeFilter.split(' ').slice(1).join(' '))||u.flag===activeFilter.split(' ')[0]);
+  if(q) list=list.filter(u=>u.name.toLowerCase().includes(q)||u.country.toLowerCase().includes(q)||u.tags.some(t=>t.toLowerCase().includes(q)));
+  renderUnis(list);
+}
+
+function setFilter(f,btn){
+  activeFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  filterUnis();
+}
+
+// ── NAVIGATION ──
+function go(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const nl=document.getElementById('nl-'+page);
+  if(nl) nl.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(page==='universities') renderUnis(UNIS);
+  injectFooters();
+  initReveal();
+}
+
+function injectFooters(){
+  const tpl=document.getElementById('footer-tpl').content.cloneNode(true);
+  ['home','universities','mentor'].forEach(id=>{
+    const el=document.getElementById(id+'-footer');
+    if(el&&!el.children.length) el.appendChild(tpl.cloneNode(true));
+  });
+}
+
+// ── AUTH TABS ──
+function switchTab(t){
+  document.getElementById('form-login').style.display=t==='login'?'block':'none';
+  document.getElementById('form-signup').style.display=t==='signup'?'block':'none';
+  document.getElementById('tab-login').classList.toggle('active',t==='login');
+  document.getElementById('tab-signup').classList.toggle('active',t==='signup');
+}
+function selectRole(r){
+  document.getElementById('role-seeker').classList.toggle('selected',r==='seeker');
+  document.getElementById('role-mentor-opt').classList.toggle('selected',r==='mentor');
+  document.getElementById('seeker-fields').style.display=r==='seeker'?'block':'none';
+  document.getElementById('mentor-extra-fields').style.display=r==='mentor'?'block':'none';
+}
+
+// ── EARNINGS CALC ──
+function calcEarnings(sessions){
+  const s=parseInt(sessions);
+  const monthly=Math.round(s*319*4.2);
+  const annual=monthly*12;
+  document.getElementById('sess-count').textContent=s+' sessions';
+  document.getElementById('monthly-earn').textContent='₹'+monthly.toLocaleString('en-IN');
+  document.getElementById('annual-earn').textContent='₹'+annual.toLocaleString('en-IN');
+}
+
+// ── FAQ ──
+function toggleFaq(q){
+  const item=q.closest('.faq-item');
+  const wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!wasOpen) item.classList.add('open');
+}
+
+// ── PASSWORD TOGGLE ──
+function togglePw(id,btn){
+  const inp=document.getElementById(id);
+  inp.type=inp.type==='password'?'text':'password';
+  btn.textContent=inp.type==='password'?'👁':'🙈';
+}
+
+// ── TOAST ──
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';
+  clearTimeout(t._timer);
+  t._timer=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(60px)'},3500);
+}
+
+// ── CURSOR ──
+const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function animR(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(animR)})();
+document.addEventListener('mouseover',e=>{
+  if(e.target.closest('button,a,.fc,.ucard,.tcard,.bcard,.hstep,.mstep,.mbcard,.auth-tab,.role-opt,.filter-btn,.upill')){
+    cur.style.width='18px';cur.style.height='18px';cur.style.background='#f56040';
+    curR.style.width='46px';curR.style.height='46px';curR.style.borderColor='rgba(245,96,64,.4)';
+  } else {
+    cur.style.width='10px';cur.style.height='10px';cur.style.background='var(--accent)';
+    curR.style.width='34px';curR.style.height='34px';curR.style.borderColor='rgba(32,71,212,.3)';
+  }
+});
+
+// ── SCROLL REVEAL ──
+function initReveal(){
+  setTimeout(()=>{
+    const obs=new IntersectionObserver(en=>en.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.1});
+    document.querySelectorAll('.page.active .reveal:not(.vis)').forEach(el=>obs.observe(el));
+    document.querySelectorAll('.page.active .hstep,.page.active .mstep,.page.active .tcard,.page.active .bcard,.page.active .mbcard,.page.active .ucard').forEach((el,i)=>{
+      if(!el.classList.contains('reveal')){el.classList.add('reveal');el.style.transitionDelay=(i%4)*.08+'s'}
+      obs.observe(el);
+    });
+  },80);
+}
+
+// ── INIT ──
+injectFooters();
+renderUnis(UNIS);
+initReveal();
+
+// Parallax on home
+window.addEventListener('scroll',()=>{
+  if(!document.getElementById('page-home').classList.contains('active'))return;
+  const y=window.scrollY;
+  const hl=document.querySelector('#page-home .hero-grid > div');
+  const fw=document.querySelector('#page-home .float-wrap');
+  if(hl)hl.style.transform=`translateY(${y*.1}px)`;
+  if(fw)fw.style.transform=`translateY(${y*.055}px)`;
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String?
+  role          Role      @default(SEEKER)
+  profilePhoto  String?
+  country       String?
+  createdAt     DateTime  @default(now())
+  mentorProfile MentorProfile?
+  seekerProfile SeekerProfile?
+  sessions      Session[]
+  messages      Message[]
+  reviews       Review[]
+}
+
+enum Role {
+  SEEKER
+  MENTOR
+  ADMIN
+}
+
+model MentorProfile {
+  id               String    @id @default(cuid())
+  userId           String    @unique
+  user             User      @relation(fields: [userId], references: [id])
+  university       String
+  universitySlug   String
+  course           String
+  yearOfStudy      Int
+  bio              String?
+  uniEmail         String?
+  isVerified       Boolean   @default(false)
+  expertiseTags    String[]
+  languages        String[]
+  rating           Float     @default(0)
+  totalSessions    Int       @default(0)
+  sessionTypes     SessionType[]
+  availability     Availability[]
+  earnings         Float     @default(0)
+}
+
+model SeekerProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id])
+  targetUniversity String?
+  targetCountry   String?
+  savedMentors    String[]
+}
+
+model SessionType {
+  id              String   @id @default(cuid())
+  mentorId        String
+  mentor          MentorProfile @relation(fields: [mentorId], references: [id])
+  label           String   // "Quick Chat", "Deep Dive", "Full Guidance"
+  durationMins    Int
+  price           Float
+  sessions        Session[]
+}
+
+model Session {
+  id           String    @id @default(cuid())
+  mentorId     String
+  seekerId     String
+  sessionTypeId String
+  sessionType  SessionType @relation(fields: [sessionTypeId], references: [id])
+  User         User      @relation(fields: [seekerId], references: [id])
+  scheduledAt  DateTime
+  status       SessionStatus @default(PENDING)
+  topic        String
+  roomUrl      String?
+  notes        String?
+  createdAt    DateTime  @default(now())
+  review       Review?
+}
+
+enum SessionStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+model Review {
+  id           String   @id @default(cuid())
+  sessionId    String   @unique
+  session      Session  @relation(fields: [sessionId], references: [id])
+  seekerId     String
+  User         User     @relation(fields: [seekerId], references: [id])
+  mentorId     String
+  rating       Float
+  helpfulness  Int
+  communication Int
+  knowledge    Int
+  friendliness Int
+  comment      String?
+  recommend    Boolean
+  createdAt    DateTime @default(now())
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  senderId   String
+  receiverId String
+  User       User     @relation(fields: [senderId], references: [id])
+  content    String
+  read       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model ForumQuestion {
+  id           String   @id @default(cuid())
+  authorId     String
+  title        String
+  body         String
+  tags         String[]
+  university   String?
+  upvotes      Int      @default(0)
+  answers      ForumAnswer[]
+  createdAt    DateTime @default(now())
+}
+
+model ForumAnswer {
+  id         String   @id @default(cuid())
+  questionId String
+  question   ForumQuestion @relation(fields: [questionId], references: [id])
+  authorId   String
+  content    String
+  upvotes    Int      @default(0)
+  isMentor   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model Availability {
+  id         String   @id @default(cuid())
+  mentorId   String
+  mentor     MentorProfile @relation(fields: [mentorId], references: [id])
+  dayOfWeek  Int      // 0-6
+  startTime  String   // "09:00"
+  endTime    String   // "10:00"
+}
