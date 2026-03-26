@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Wallet, CalendarDays, Star, TrendingUp, CheckCircle2, Clock } from 'lucide-react';
+import { Wallet, CalendarDays, Star, TrendingUp, CheckCircle2, Clock, UserCircle } from 'lucide-react';
 
 export default function MentorOverview() {
   const upcomingSessions = [
@@ -84,7 +84,7 @@ export default function MentorOverview() {
             <h2 className="text-lg font-display font-medium text-white">Upcoming Sessions</h2>
             <Link href="/dashboard/mentor/sessions" className="text-sm text-accent hover:text-white transition-colors">View all</Link>
           </div>
-          
+
           <div className="space-y-3">
             {upcomingSessions.map(session => (
               <div key={session.id} className="bg-surface border border-border rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -106,7 +106,7 @@ export default function MentorOverview() {
                 </div>
               </div>
             ))}
-            
+
             {upcomingSessions.length === 0 && (
               <div className="bg-surface border border-border rounded-2xl p-8 text-center">
                 <CalendarDays className="w-10 h-10 text-text-secondary mx-auto mb-3" />

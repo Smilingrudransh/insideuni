@@ -3,6 +3,23 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import prisma from "@/lib/prisma";
 
+declare module "next-auth" {
+  interface User {
+    id: string;
+    role?: string;
+  }
+  interface Session {
+    user: User;
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string;
+    role?: string;
+  }
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
