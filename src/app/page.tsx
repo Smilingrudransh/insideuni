@@ -13,7 +13,7 @@ export default function LandingPage() {
           <Link href="/explore">Explore Mentors</Link>
         </div>
         <div className="nav-r">
-          <Link href="/register" className="btn-nav">Access the network.</Link>
+          <Link href="/register" className="btn-nav">Access The Network →</Link>
         </div>
       </nav>
 
@@ -21,9 +21,9 @@ export default function LandingPage() {
       <div className="hero">
         <div className="hero-grid">
           <div>
-            <div className="eyebrow"><span className="eyebrow-badge">New</span> 500+ verified mentors · 200+ universities</div>
+            <div className="eyebrow" style={{ marginTop: '32px' }}><span className="eyebrow-badge">New</span> 500+ verified mentors <strong>·</strong> 200+ universities</div>
             <h1 className="hero-h">Guidance from<br /><em>students who&apos;ve</em><br />actually been there.</h1>
-            <p className="hero-sub">Talk to real students at your dream university. Get honest answers about admissions, scholarships, student life — no consultancy bias.</p>
+            <p className="hero-sub">Talk to real students at your dream university. Get honest answers about admissions, scholarships, student life without any <strong>consultancy bias</strong>.</p>
             <div className="hero-ctas">
               <Link href="/university" className="btn-primary">Find Your Mentor →</Link>
               <Link href="/register?role=mentor" className="btn-outline">Become a Mentor</Link>
@@ -60,9 +60,11 @@ export default function LandingPage() {
               </div>
               <div className="cft">
                 <div><div className="cprice">₹399</div><div className="cpunit">/ 30 min</div></div>
-                <div style={{textAlign:'right'}}><div className="cstars">★★★★★</div><div className="csess">127 sessions</div></div>
+                <div style={{ textAlign: 'right' }}><div className="cstars">★★★★★</div><div className="csess">127 sessions</div></div>
               </div>
-              <Link href="/register" className="cbtn">Book Session →</Link>
+              <div className="cbtn" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', zoom: 0.9 }}>
+                <Link href="/register">Book Session →</Link>
+              </div>
             </div>
 
             <div className="fc fc2">
@@ -79,7 +81,7 @@ export default function LandingPage() {
               </div>
               <div className="cft">
                 <div><div className="cprice">₹299</div><div className="cpunit">/ 30 min</div></div>
-                <div style={{textAlign:'right'}}><div className="cstars">★★★★★</div><div className="csess">84 sessions</div></div>
+                <div style={{ textAlign: 'right' }}><div className="cstars">★★★★★</div><div className="csess">84 sessions</div></div>
               </div>
             </div>
 
@@ -97,27 +99,27 @@ export default function LandingPage() {
               </div>
               <div className="cft">
                 <div><div className="cprice">₹249</div><div className="cpunit">/ 30 min</div></div>
-                <div style={{textAlign:'right'}}><div className="cstars">★★★★☆</div><div className="csess">52 sessions</div></div>
+                <div style={{ textAlign: 'right' }}><div className="cstars">★★★★☆</div><div className="csess">52 sessions</div></div>
               </div>
             </div>
 
             <div className="fc fc4">
               <div className="ch">
-                <div className="av av-green" style={{width:36,height:36,fontSize:12}}>SJ</div>
+                <div className="av av-green" style={{ width: 36, height: 36, fontSize: 12 }}>SJ</div>
                 <div>
-                  <div className="cname" style={{fontSize:'12.5px'}}>Sneha Jain <div className="vbadge">✓</div></div>
-                  <div className="cuni" style={{fontSize:10}}>🇸🇬 NUS · Data Science</div>
+                  <div className="cname" style={{ fontSize: '12.5px' }}>Sneha Jain <div className="vbadge">✓</div></div>
+                  <div className="cuni" style={{ fontSize: 10 }}>🇸🇬 NUS · Data Science</div>
                 </div>
               </div>
-              <div className="cft" style={{marginTop:8,paddingTop:8}}>
-                <div className="cprice" style={{fontSize:15}}>₹199</div>
-                <div className="cstars" style={{fontSize:10}}>★★★★★</div>
+              <div className="cft" style={{ marginTop: 8, paddingTop: 8 }}>
+                <div className="cprice" style={{ fontSize: 15 }}>₹199</div>
+                <div className="cstars" style={{ fontSize: 10 }}>★★★★★</div>
               </div>
             </div>
 
-            <div className="fbadge fb1"><span style={{fontSize:17}}>🟢</span><div><div style={{fontSize:12,fontWeight:600}}>3 live sessions</div><div style={{fontSize:10,color:'var(--muted)'}}>Happening right now</div></div></div>
-            <div className="fbadge fb2"><span style={{fontSize:17}}>🎓</span><div><div style={{fontSize:12,fontWeight:600}}>200+ Universities</div><div style={{fontSize:10,color:'var(--muted)'}}>30 countries covered</div></div></div>
-            <div className="fbadge fb3"><span style={{fontSize:17}}>⭐</span><div><div style={{fontSize:12,fontWeight:600}}>4.9 / 5.0</div><div style={{fontSize:10,color:'var(--muted)'}}>2,400+ reviews</div></div></div>
+            <div className="fbadge fb1"><span style={{ fontSize: 17 }}>🟢</span><div><div style={{ fontSize: 12, fontWeight: 600 }}>3 live sessions</div><div style={{ fontSize: 10, color: 'var(--muted)' }}>Happening right now</div></div></div>
+            <div className="fbadge fb2"><span style={{ fontSize: 17 }}>🎓</span><div><div style={{ fontSize: 12, fontWeight: 600 }}>200+ Universities</div><div style={{ fontSize: 10, color: 'var(--muted)' }}>30 countries covered</div></div></div>
+            <div className="fbadge fb3"><span style={{ fontSize: 17 }}>⭐</span><div><div style={{ fontSize: 12, fontWeight: 600 }}>4.9 / 5.0</div><div style={{ fontSize: 10, color: 'var(--muted)' }}>2,400+ reviews</div></div></div>
           </div>
         </div>
       </div>
@@ -125,8 +127,8 @@ export default function LandingPage() {
       {/* ── TICKER ── */}
       <div className="ticker-wrap">
         <div className="ticker-track">
-          {['🇺🇸 MIT','🇺🇸 Stanford','🇬🇧 Oxford','🇬🇧 Cambridge','🇺🇸 Harvard','🇨🇭 ETH Zurich','🇸🇬 NUS Singapore','🇩🇪 TU Munich','🇬🇧 Imperial College','🇨🇦 Toronto','🇦🇺 Melbourne','🇺🇸 Carnegie Mellon','🇺🇸 Yale','🇫🇷 HEC Paris','🇳🇱 TU Delft','🇰🇷 KAIST',
-            '🇺🇸 MIT','🇺🇸 Stanford','🇬🇧 Oxford','🇬🇧 Cambridge','🇺🇸 Harvard','🇨🇭 ETH Zurich','🇸🇬 NUS Singapore','🇩🇪 TU Munich','🇬🇧 Imperial College','🇨🇦 Toronto','🇦🇺 Melbourne','🇺🇸 Carnegie Mellon','🇺🇸 Yale','🇫🇷 HEC Paris','🇳🇱 TU Delft','🇰🇷 KAIST',
+          {['🇺🇸 MIT', '🇺🇸 Stanford', '🇬🇧 Oxford', '🇬🇧 Cambridge', '🇺🇸 Harvard', '🇨🇭 ETH Zurich', '🇸🇬 NUS Singapore', '🇩🇪 TU Munich', '🇬🇧 Imperial College', '🇨🇦 Toronto', '🇦🇺 Melbourne', '🇺🇸 Carnegie Mellon', '🇺🇸 Yale', '🇫🇷 HEC Paris', '🇳🇱 TU Delft', '🇰🇷 KAIST',
+            '🇺🇸 MIT', '🇺🇸 Stanford', '🇬🇧 Oxford', '🇬🇧 Cambridge', '🇺🇸 Harvard', '🇨🇭 ETH Zurich', '🇸🇬 NUS Singapore', '🇩🇪 TU Munich', '🇬🇧 Imperial College', '🇨🇦 Toronto', '🇦🇺 Melbourne', '🇺🇸 Carnegie Mellon', '🇺🇸 Yale', '🇫🇷 HEC Paris', '🇳🇱 TU Delft', '🇰🇷 KAIST',
           ].map((u, i) => (
             <Link key={i} href="/university" className="upill">{u}</Link>
           ))}
@@ -137,7 +139,7 @@ export default function LandingPage() {
       <div className="sw reveal">
         <div className="section-label"><span />{`How it works`}<span /></div>
         <h2 className="serif">Three steps to your <em>dream admission</em></h2>
-        <p className="sub" style={{maxWidth:420}}>No middlemen. No bias. Just real conversations with students who&apos;ve actually been there.</p>
+        <p className="sub" style={{ maxWidth: 420 }}>No middlemen. No bias. Just real conversations with students who&apos;ve actually been there.</p>
         <div className="how-grid">
           <div className="hstep"><span className="hnum">01</span><span className="hemoji">🔍</span><h3>Search &amp; Filter</h3><p>Browse verified mentors by university, course, language, and budget. Every profile shows real session reviews.</p></div>
           <div className="hstep"><span className="hnum">02</span><span className="hemoji">📅</span><h3>Book a Session</h3><p>Pick a 15, 30, or 60-minute slot. Pay securely via UPI or card. Add your questions in advance.</p></div>
@@ -162,13 +164,13 @@ export default function LandingPage() {
             <p>Every mentor verifies with their official university email. Real students only — no consultants.</p>
             <div className="bnum">500+</div>
           </div>
-          <div className="bcard btall" style={{background:'var(--accent)',borderColor:'var(--accent)'}}>
-            <div className="bicon" style={{background:'rgba(255,255,255,.12)'}}>⚡</div>
-            <h3 style={{color:'#fff'}}>10× cheaper</h3>
-            <p style={{color:'rgba(255,255,255,.72)'}}>Consultancies charge ₹50,000+. Sessions here start at ₹199. Get better, more authentic advice.</p>
-            <div style={{marginTop:'auto',paddingTop:24}}>
-              <div style={{fontFamily:'Fraunces,serif',fontSize:50,fontWeight:700,color:'#fff',letterSpacing:-3,lineHeight:1}}>₹199</div>
-              <div style={{fontSize:12,color:'rgba(255,255,255,.55)',marginTop:5}}>to start your journey</div>
+          <div className="bcard btall" style={{ background: 'var(--accent)', borderColor: 'var(--accent)' }}>
+            <div className="bicon" style={{ background: 'rgba(255,255,255,.12)' }}>⚡</div>
+            <h3 style={{ color: '#fff' }}>10× cheaper</h3>
+            <p style={{ color: 'rgba(255,255,255,.72)' }}>Consultancies charge ₹50,000+. Sessions here start at ₹199. Get better, more authentic advice.</p>
+            <div style={{ marginTop: 'auto', paddingTop: 24 }}>
+              <div style={{ fontFamily: 'Fraunces,serif', fontSize: 50, fontWeight: 700, color: '#fff', letterSpacing: -3, lineHeight: 1 }}>₹199</div>
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,.55)', marginTop: 5 }}>to start your journey</div>
             </div>
           </div>
           <div className="bcard">
@@ -180,7 +182,7 @@ export default function LandingPage() {
             <div className="bicon bi-coral">🏆</div>
             <h3>Star-rated quality</h3>
             <p>Every mentor is rated after each session. Low-rated mentors are removed automatically.</p>
-            <div className="bnum" style={{fontSize:40}}>4.9★</div>
+            <div className="bnum" style={{ fontSize: 40 }}>4.9★</div>
           </div>
         </div>
       </div></div>
@@ -212,7 +214,7 @@ export default function LandingPage() {
       <div className="sw reveal">
         <div className="hcta">
           <div className="hcta-l">
-            <div className="live-badge" style={{marginBottom:18}}><span className="live-dot" />3 sessions happening right now</div>
+            <div className="live-badge" style={{ marginBottom: 18 }}><span className="live-dot" />3 sessions happening right now</div>
             <h2>Your dream university is one <em>conversation away.</em></h2>
             <p className="hcta-sub">Join 10,000+ students who got real guidance from people who&apos;ve actually been there.</p>
             <div className="hcta-stats">

@@ -281,17 +281,17 @@ h1.hero-h em{font-style:italic;color:var(--accent)}
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    AUTH PAGE
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-.auth-page{min-height:calc(100vh - 66px);display:grid;grid-template-columns:1fr 1fr}
-.auth-left{background:var(--accent);padding:56px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.auth-page{min-height:100vh;padding-top:66px;display:grid;grid-template-columns:3fr 2fr}
+.auth-left{background:var(--accent);padding:72px 10%;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
 .auth-left::before{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;border-radius:50%;background:rgba(255,255,255,.06)}
 .auth-left::after{content:'';position:absolute;bottom:-60px;left:-40px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.04)}
-.auth-left-content{position:relative;z-index:1}
-.auth-left h2{font-family:'Fraunces',serif;font-size:clamp(28px,3.5vw,46px);color:#fff;letter-spacing:-2px;line-height:1.1;margin-bottom:18px}
+.auth-left-content{position:relative;z-index:1;display:flex;flex-direction:column;gap:32px}
+.auth-left h2{font-family:'Fraunces',serif;font-size:clamp(28px,3.5vw,46px);color:#fff;letter-spacing:-2px;line-height:1.1;margin:0}
 .auth-left h2 em{font-style:italic;color:rgba(255,255,255,.65)}
-.auth-left p{color:rgba(255,255,255,.72);font-size:15px;line-height:1.7;font-weight:300;max-width:360px}
-.auth-benefits{margin-top:36px;display:flex;flex-direction:column;gap:14px}
-.auth-benefit{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,.85);font-size:13.5px}
-.auth-benefit-icon{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.auth-left p{color:rgba(255,255,255,.72);font-size:15.5px;line-height:1.7;font-weight:300;max-width:440px;margin:0}
+.auth-benefits{display:flex;flex-direction:column;gap:32px}
+.auth-benefit{display:flex;align-items:center;gap:14px;color:rgba(255,255,255,.85);font-size:14px}
+.auth-benefit-icon{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
 .auth-left-footer{position:relative;z-index:1}
 .auth-testimonial{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:var(--radius-sm);padding:20px}
 .auth-testimonial p{color:rgba(255,255,255,.85);font-size:13px;line-height:1.68;font-style:italic;font-family:'Fraunces',serif;margin-bottom:14px}

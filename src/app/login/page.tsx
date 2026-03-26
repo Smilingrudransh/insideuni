@@ -18,8 +18,7 @@ export default function LoginPage() {
           <Link href="/explore">Explore Mentors</Link>
         </div>
         <div className="nav-r">
-          <Link href="/login" className="btn-ghost">Log in</Link>
-          <Link href="/register" className="btn-nav">Sign up free →</Link>
+          <Link href="/register" className="btn-nav">Access The Network →</Link>
         </div>
       </nav>
 
@@ -27,13 +26,13 @@ export default function LoginPage() {
         {/* Left panel */}
         <div className="auth-left">
           <div className="auth-left-content">
-            <div className="logo" style={{ color: '#fff', marginBottom: 36, WebkitTextFillColor: '#fff' }}>Inside<span style={{ color: 'rgba(255,255,255,.65)' }}>Uni</span></div>
+            <div className="logo" style={{ color: '#fff', WebkitTextFillColor: '#fff' }}>Inside<span style={{ color: 'rgba(255,255,255,.65)' }}>Uni</span></div>
             <h2>Your dream university<br />is one <em>conversation away.</em></h2>
-            <p style={{ marginTop: 14 }}>Join 10,000+ students getting real guidance from people who&apos;ve actually been to their dream universities.</p>
+            <p>Join 10,000+ students getting real guidance from people who&apos;ve actually been to their dream universities.</p>
             <div className="auth-benefits">
               <div className="auth-benefit"><div className="auth-benefit-icon">🎓</div><span>Access 500+ verified mentors at top universities worldwide</span></div>
               <div className="auth-benefit"><div className="auth-benefit-icon">💬</div><span>1-on-1 video sessions starting at just ₹199</span></div>
-              <div className="auth-benefit"><div className="auth-benefit-icon">🛡️</div><span>100% unbiased — no university pays us to recommend them</span></div>
+              <div className="auth-benefit"><div className="auth-benefit-icon">🛡️</div><span>100% unbiased. no university pays us to recommend them</span></div>
               <div className="auth-benefit"><div className="auth-benefit-icon">⚡</div><span>Book in under 2 minutes, get answers in hours</span></div>
             </div>
           </div>
