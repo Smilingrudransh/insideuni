@@ -5,7 +5,7 @@ export default function LandingPage() {
     <>
       {/* ── NAV ── */}
       <nav>
-        <Link href="/" className="logo">Inside<span>Uni</span></Link>
+        <Link href="/" className="logo">Inside<span>Uni.</span></Link>
         <div className="nav-links">
           <Link href="/" className="active">Home</Link>
           <Link href="/university">Universities</Link>
@@ -226,7 +226,7 @@ export default function LandingPage() {
           </div>
           <div className="hcta-r">
             <Link href="/university" className="btn-white">Find Your Mentor →</Link>
-            <Link href="/register?role=mentor" className="btn-ghost-w">Become a Mentor</Link>
+            <Link href="/register?role=mentor" style={{ marginTop: "5px" }} className="btn-ghost-w">Become a Mentor</Link>
           </div>
         </div>
       </div>
@@ -241,7 +241,7 @@ export default function LandingPage() {
         <div className="fcol"><h4>Company</h4><a href="#">About Us</a><a href="#">Blog</a><a href="#">Careers</a><a href="#">Press</a></div>
         <div className="fcol"><h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Refund Policy</a><a href="#">Contact</a></div>
       </footer>
-      <div className="fbot"><span className="fcopy">© 2025 InsideUni Technologies Pvt. Ltd.</span><span className="fcopy">Made with ❤️ in Jaipur, India</span></div>
+      <div className="fbot"><span className="fcopy">© 2025 InsideUni Technologies Pvt. Ltd.</span><span className="fcopy">Made with ❤️ from India</span></div>
     </>
   );
 }

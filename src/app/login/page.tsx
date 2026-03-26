@@ -10,7 +10,7 @@ export default function LoginPage() {
   return (
     <>
       <nav>
-        <Link href="/" className="logo">Inside<span>Uni</span></Link>
+        <Link href="/" className="logo">Inside<span>Uni.</span></Link>
         <div className="nav-links">
           <Link href="/">Home</Link>
           <Link href="/university">Universities</Link>
@@ -26,7 +26,7 @@ export default function LoginPage() {
         {/* Left panel */}
         <div className="auth-left">
           <div className="auth-left-content">
-            <div className="logo" style={{ color: '#fff', WebkitTextFillColor: '#fff' }}>Inside<span style={{ color: 'rgba(255,255,255,.65)' }}>Uni</span></div>
+            <div className="logo" style={{ color: '#fff', WebkitTextFillColor: '#fff' }}>Inside<span style={{ color: 'rgba(255,255,255,.65)' }}>Uni.</span></div>
             <h2>Your dream university<br />is one <em>conversation away.</em></h2>
             <p>Join 10,000+ students getting real guidance from people who&apos;ve actually been to their dream universities.</p>
             <div className="auth-benefits">
