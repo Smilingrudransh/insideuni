@@ -37,7 +37,7 @@ export default function LoginPage() {
             </div>
           </div>
           <div className="auth-left-footer">
-            <div className="auth-testimonial">
+            <div className="auth-testimonial" style={{ marginTop: "32px" }}>
               <p>&ldquo;One session with an MIT student gave me more useful advice than 3 months with a consultancy. InsideUni is genuinely different.&rdquo;</p>
               <div className="auth-testimonial-author">
                 <div className="auth-testimonial-av">DM</div>
