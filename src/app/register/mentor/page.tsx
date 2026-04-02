@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from 'firebase/auth';
-import { auth } from '@/lib/firebase-client';
+import { getAuthInstance } from '@/lib/firebase-client';
 import { registerMentor } from '@/actions/auth.actions';
 
 export default function MentorRegisterPage() {
@@ -68,7 +68,7 @@ export default function MentorRegisterPage() {
 
     try {
       // 1. Create Firebase account
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(getAuthInstance(), email, password);
       await updateProfile(userCredential.user, {
         displayName: `${firstName} ${lastName}`,
       });
@@ -114,7 +114,7 @@ export default function MentorRegisterPage() {
 
     try {
       const provider = new GoogleAuthProvider();
-      const userCredential = await signInWithPopup(auth, provider);
+      const userCredential = await signInWithPopup(getAuthInstance(), provider);
       const idToken = await userCredential.user.getIdToken();
 
       // Create session

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { auth } from '@/lib/firebase-client';
+import { getAuthInstance } from '@/lib/firebase-client';
 
 export default function LoginPage() {
   const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login');
@@ -187,6 +187,7 @@ function LoginForm({
     setLoading(true);
 
     try {
+      const auth = getAuthInstance();
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const idToken = await userCredential.user.getIdToken();
 
@@ -214,6 +215,7 @@ function LoginForm({
     setLoading(true);
 
     try {
+      const auth = getAuthInstance();
       const provider = new GoogleAuthProvider();
       const userCredential = await signInWithPopup(auth, provider);
       const idToken = await userCredential.user.getIdToken();
