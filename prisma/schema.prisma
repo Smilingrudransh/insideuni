@@ -7,364 +7,145 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ============================================================
-// ENUMS
-// ============================================================
-
-enum Role {
-  STUDENT
-  MENTOR
-  ADMIN
+model Availability {
+  id            String        @id
+  mentorId      String
+  dayOfWeek     Int
+  startTime     String
+  endTime       String
+  MentorProfile MentorProfile @relation(fields: [mentorId], references: [id])
 }
 
-enum MentorshipStatus {
-  PENDING
-  ACTIVE
-  PAUSED
-  COMPLETED
-  CANCELLED
+model ForumAnswer {
+  id            String        @id
+  questionId    String
+  authorId      String
+  content       String
+  upvotes       Int           @default(0)
+  isMentor      Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+  ForumQuestion ForumQuestion @relation(fields: [questionId], references: [id])
+}
+
+model ForumQuestion {
+  id          String        @id
+  authorId    String
+  title       String
+  body        String
+  tags        String[]
+  university  String?
+  upvotes     Int           @default(0)
+  createdAt   DateTime      @default(now())
+  ForumAnswer ForumAnswer[]
+}
+
+model MentorProfile {
+  id             String         @id
+  userId         String         @unique
+  university     String
+  universitySlug String
+  course         String
+  yearOfStudy    Int
+  bio            String?
+  uniEmail       String?
+  isVerified     Boolean        @default(false)
+  expertiseTags  String[]
+  languages      String[]
+  rating         Float          @default(0)
+  totalSessions  Int            @default(0)
+  earnings       Float          @default(0)
+  Availability   Availability[]
+  User           User           @relation(fields: [userId], references: [id])
+  SessionType    SessionType[]
+}
+
+model Message {
+  id         String   @id
+  senderId   String
+  receiverId String
+  content    String
+  read       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  User       User     @relation(fields: [senderId], references: [id])
+}
+
+model Review {
+  id            String   @id
+  sessionId     String   @unique
+  seekerId      String
+  mentorId      String
+  rating        Float
+  helpfulness   Int
+  communication Int
+  knowledge     Int
+  friendliness  Int
+  comment       String?
+  recommend     Boolean
+  createdAt     DateTime @default(now())
+  User          User     @relation(fields: [seekerId], references: [id])
+  Session       Session  @relation(fields: [sessionId], references: [id])
+}
+
+model SeekerProfile {
+  id               String   @id
+  userId           String   @unique
+  targetUniversity String?
+  targetCountry    String?
+  savedMentors     String[]
+  User             User     @relation(fields: [userId], references: [id])
+}
+
+model Session {
+  id            String        @id
+  mentorId      String
+  seekerId      String
+  sessionTypeId String
+  scheduledAt   DateTime
+  status        SessionStatus @default(PENDING)
+  topic         String
+  roomUrl       String?
+  notes         String?
+  createdAt     DateTime      @default(now())
+  Review        Review?
+  User          User          @relation(fields: [seekerId], references: [id])
+  SessionType   SessionType   @relation(fields: [sessionTypeId], references: [id])
+}
+
+model SessionType {
+  id            String        @id
+  mentorId      String
+  label         String
+  durationMins  Int
+  price         Float
+  Session       Session[]
+  MentorProfile MentorProfile @relation(fields: [mentorId], references: [id])
+}
+
+model User {
+  id            String         @id
+  name          String
+  email         String         @unique
+  password      String?
+  role          Role           @default(SEEKER)
+  profilePhoto  String?
+  country       String?
+  createdAt     DateTime       @default(now())
+  MentorProfile MentorProfile?
+  Message       Message[]
+  Review        Review[]
+  SeekerProfile SeekerProfile?
+  Session       Session[]
+}
+
+enum Role {
+  SEEKER
+  MENTOR
+  ADMIN
 }
 
 enum SessionStatus {
   PENDING
   CONFIRMED
-  IN_PROGRESS
   COMPLETED
   CANCELLED
-  NO_SHOW
-}
-
-enum NotificationType {
-  MENTORSHIP_REQUEST
-  MENTORSHIP_ACCEPTED
-  MENTORSHIP_REJECTED
-  SESSION_BOOKED
-  SESSION_REMINDER
-  SESSION_CANCELLED
-  SESSION_COMPLETED
-  REVIEW_RECEIVED
-  FORUM_REPLY
-  SYSTEM_ALERT
-}
-
-enum NotificationChannel {
-  IN_APP
-  EMAIL
-  SMS
-  PUSH
-}
-
-enum DegreeType {
-  BACHELOR
-  MASTER
-  PHD
-  DIPLOMA
-  CERTIFICATE
-  ASSOCIATE
-  PROFESSIONAL
-}
-
-enum EntityType {
-  USER
-  UNIVERSITY
-  PROGRAM
-  STUDENT_PROFILE
-  MENTOR_PROFILE
-  MENTORSHIP
-  SESSION
-  FORUM_THREAD
-  FORUM_REPLY
-  NOTIFICATION
-}
-
-// ============================================================
-// MODELS
-// ============================================================
-
-model User {
-  id          String    @id @default(cuid())
-  firebaseUid String    @unique
-  email       String    @unique
-  name        String
-  avatarUrl   String?
-  role        Role      @default(STUDENT)
-  country     String?
-  phone       String?
-  isActive    Boolean   @default(true)
-  lastLoginAt DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  // Relations
-  studentProfile       StudentProfile?
-  mentorProfile        MentorProfile?
-  mentorshipsAsStudent Mentorship[]    @relation("StudentMentorships")
-  mentorshipsAsMentor  Mentorship[]    @relation("MentorMentorships")
-  sessionsAsStudent    Session[]       @relation("StudentSessions")
-  sessionsAsMentor     Session[]       @relation("MentorSessions")
-  notifications        Notification[]
-  activityLogsAsActor  ActivityLog[]   @relation("ActorLogs")
-  forumThreads         ForumThread[]
-  forumReplies         ForumReply[]
-
-  @@index([firebaseUid])
-  @@index([email])
-  @@index([role])
-  @@index([country])
-  @@map("users")
-}
-
-model University {
-  id          String   @id @default(cuid())
-  name        String
-  slug        String   @unique
-  country     String
-  city        String
-  logoUrl     String?
-  websiteUrl  String?
-  description String?
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relations
-  programs        Program[]
-  studentProfiles StudentProfile[]
-
-  @@index([slug])
-  @@index([country])
-  @@index([city])
-  @@index([country, city])
-  @@map("universities")
-}
-
-model Program {
-  id            String     @id @default(cuid())
-  universityId  String
-  university    University @relation(fields: [universityId], references: [id], onDelete: Cascade)
-  name          String
-  degreeType    DegreeType
-  department    String?
-  durationYears Int?
-  description   String?
-  isActive      Boolean    @default(true)
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-
-  // Relations
-  studentProfiles StudentProfile[]
-
-  @@index([universityId])
-  @@index([degreeType])
-  @@index([universityId, degreeType])
-  @@map("programs")
-}
-
-model StudentProfile {
-  id             String      @id @default(cuid())
-  userId         String      @unique
-  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  universityId   String?
-  university     University? @relation(fields: [universityId], references: [id], onDelete: SetNull)
-  programId      String?
-  program        Program?    @relation(fields: [programId], references: [id], onDelete: SetNull)
-  bio            String?
-  skills         String[]    @default([])
-  interests      String[]    @default([])
-  graduationYear Int?
-  linkedinUrl    String?
-  githubUrl      String?
-  portfolioUrl   String?
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
-
-  @@index([userId])
-  @@index([universityId])
-  @@index([programId])
-  @@map("student_profiles")
-}
-
-model MentorProfile {
-  id            String   @id @default(cuid())
-  userId        String   @unique
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  bio           String?
-  headline      String?
-  expertise     String[] @default([])
-  industries    String[] @default([])
-  hourlyRate    Float?
-  currency      String   @default("USD")
-  maxStudents   Int      @default(5)
-  currentLoad   Int      @default(0)
-  avgRating     Float    @default(0)
-  totalReviews  Int      @default(0)
-  totalSessions Int      @default(0)
-  isVerified    Boolean  @default(false)
-  isAccepting   Boolean  @default(true)
-  availability  Json?
-  linkedinUrl   String?
-  websiteUrl    String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  // Relations
-  mentorships Mentorship[]
-
-  @@index([userId])
-  @@index([isVerified])
-  @@index([isAccepting])
-  @@index([avgRating])
-  @@index([hourlyRate])
-  @@map("mentor_profiles")
-}
-
-model Mentorship {
-  id           String           @id @default(cuid())
-  mentorId     String
-  mentor       MentorProfile    @relation(fields: [mentorId], references: [id], onDelete: Cascade)
-  mentorUserId String
-  mentorUser   User             @relation("MentorMentorships", fields: [mentorUserId], references: [id], onDelete: Cascade)
-  studentId    String
-  student      User             @relation("StudentMentorships", fields: [studentId], references: [id], onDelete: Cascade)
-  status       MentorshipStatus @default(PENDING)
-  matchScore   Float?
-  matchReasons String[]         @default([])
-  notes        String?
-  startedAt    DateTime?
-  endedAt      DateTime?
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
-
-  // Relations
-  sessions Session[]
-
-  @@index([mentorId])
-  @@index([mentorUserId])
-  @@index([studentId])
-  @@index([status])
-  @@index([mentorId, status])
-  @@index([studentId, status])
-  @@index([matchScore])
-  @@map("mentorships")
-}
-
-model Session {
-  id             String        @id @default(cuid())
-  mentorshipId   String
-  mentorship     Mentorship    @relation(fields: [mentorshipId], references: [id], onDelete: Cascade)
-  mentorId       String
-  mentor         User          @relation("MentorSessions", fields: [mentorId], references: [id], onDelete: Cascade)
-  studentId      String
-  student        User          @relation("StudentSessions", fields: [studentId], references: [id], onDelete: Cascade)
-  scheduledAt    DateTime
-  duration       Int           @default(60) // in minutes
-  status         SessionStatus @default(PENDING)
-  topic          String?
-  notes          String?
-  meetingUrl     String?
-  feedbackRating Float?
-  feedbackText   String?
-  completedAt    DateTime?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-
-  @@index([mentorshipId])
-  @@index([mentorId])
-  @@index([studentId])
-  @@index([status])
-  @@index([scheduledAt])
-  @@index([mentorId, status])
-  @@index([studentId, status])
-  @@index([mentorId, scheduledAt])
-  @@index([studentId, scheduledAt])
-  @@map("sessions")
-}
-
-model Notification {
-  id        String              @id @default(cuid())
-  userId    String
-  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type      NotificationType
-  title     String
-  body      String
-  channel   NotificationChannel @default(IN_APP)
-  isRead    Boolean             @default(false)
-  metadata  Json?
-  createdAt DateTime            @default(now())
-
-  @@index([userId])
-  @@index([isRead])
-  @@index([type])
-  @@index([userId, isRead])
-  @@index([userId, type])
-  @@index([createdAt])
-  @@map("notifications")
-}
-
-model ActivityLog {
-  id         String     @id @default(cuid())
-  actorId    String
-  actor      User       @relation("ActorLogs", fields: [actorId], references: [id], onDelete: Cascade)
-  action     String
-  entityType EntityType
-  entityId   String
-  metadata   Json?
-  ipAddress  String?
-  userAgent  String?
-  createdAt  DateTime   @default(now())
-
-  @@index([actorId])
-  @@index([entityType])
-  @@index([entityId])
-  @@index([entityType, entityId])
-  @@index([action])
-  @@index([createdAt])
-  @@map("activity_logs")
-}
-
-model ForumThread {
-  id          String    @id @default(cuid())
-  authorId    String
-  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  title       String
-  body        String
-  tags        String[]  @default([])
-  isPinned    Boolean   @default(false)
-  isLocked    Boolean   @default(false)
-  viewCount   Int       @default(0)
-  replyCount  Int       @default(0)
-  lastReplyAt DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  // Relations
-  replies ForumReply[]
-
-  @@index([authorId])
-  @@index([tags])
-  @@index([isPinned])
-  @@index([createdAt])
-  @@index([lastReplyAt])
-  @@index([viewCount])
-  @@map("forum_threads")
-}
-
-model ForumReply {
-  id        String      @id @default(cuid())
-  threadId  String
-  thread    ForumThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
-  authorId  String
-  author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  body      String
-  parentId  String? // for nested replies
-  upvotes   Int         @default(0)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-
-  @@index([threadId])
-  @@index([authorId])
-  @@index([parentId])
-  @@index([threadId, createdAt])
-  @@index([createdAt])
-  @@map("forum_replies")
 }
