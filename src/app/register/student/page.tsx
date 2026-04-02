@@ -1,22 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile } from 'firebase/auth';
 import { auth } from '@/lib/firebase-client';
-import { getUniversities, registerStudent } from '@/actions/auth.actions';
-
-interface UniversityOption {
-  id: string;
-  name: string;
-  country: string;
-  city: string;
-}
+import { registerStudent } from '@/actions/auth.actions';
 
 export default function StudentRegisterPage() {
   const router = useRouter();
-  const [universities, setUniversities] = useState<UniversityOption[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPw, setShowPw] = useState(false);
@@ -26,18 +18,13 @@ export default function StudentRegisterPage() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [universityId, setUniversityId] = useState('');
-  const [enrollmentYear, setEnrollmentYear] = useState('');
+  const [targetUniversity, setTargetUniversity] = useState('');
+  const [targetCountry, setTargetCountry] = useState('');
   const [skills, setSkills] = useState<string[]>([]);
   const [skillInput, setSkillInput] = useState('');
   const [interests, setInterests] = useState<string[]>([]);
   const [interestInput, setInterestInput] = useState('');
   const [bio, setBio] = useState('');
-  const [timezone, setTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
-
-  useEffect(() => {
-    getUniversities().then(setUniversities).catch(console.error);
-  }, []);
 
   const addSkill = useCallback(() => {
     const trimmed = skillInput.trim();
@@ -100,12 +87,11 @@ export default function StudentRegisterPage() {
       await registerStudent({
         firstName,
         lastName,
-        universityId: universityId || undefined,
-        enrollmentYear: enrollmentYear ? parseInt(enrollmentYear) : undefined,
+        targetUniversity: targetUniversity || undefined,
+        targetCountry: targetCountry || undefined,
         skills,
         interests,
         bio: bio || undefined,
-        timezone,
       });
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Registration failed';
@@ -140,12 +126,11 @@ export default function StudentRegisterPage() {
       await registerStudent({
         firstName: nameParts[0] || '',
         lastName: nameParts.slice(1).join(' ') || '',
-        universityId: universityId || undefined,
-        enrollmentYear: enrollmentYear ? parseInt(enrollmentYear) : undefined,
+        targetUniversity: targetUniversity || undefined,
+        targetCountry: targetCountry || undefined,
         skills,
         interests,
         bio: bio || undefined,
-        timezone,
       });
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Google sign-up failed';
@@ -153,9 +138,6 @@ export default function StudentRegisterPage() {
       setLoading(false);
     }
   };
-
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 10 }, (_, i) => currentYear + i);
 
   return (
     <>
@@ -289,33 +271,23 @@ export default function StudentRegisterPage() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
                 <div className="form-field auth-form">
                   <label>Target University</label>
-                  <select
-                    value={universityId}
-                    onChange={(e) => setUniversityId(e.target.value)}
+                  <input
+                    type="text"
+                    placeholder="e.g., MIT, Stanford"
+                    value={targetUniversity}
+                    onChange={(e) => setTargetUniversity(e.target.value)}
                     disabled={loading}
-                  >
-                    <option value="">Select university...</option>
-                    {universities.map((u) => (
-                      <option key={u.id} value={u.id}>
-                        {u.name}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
                 <div className="form-field auth-form">
-                  <label>Expected Enrollment Year</label>
-                  <select
-                    value={enrollmentYear}
-                    onChange={(e) => setEnrollmentYear(e.target.value)}
+                  <label>Target Country</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., USA, UK"
+                    value={targetCountry}
+                    onChange={(e) => setTargetCountry(e.target.value)}
                     disabled={loading}
-                  >
-                    <option value="">Select year...</option>
-                    {years.map((y) => (
-                      <option key={y} value={y}>
-                        {y}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
               </div>
 
@@ -374,21 +346,6 @@ export default function StudentRegisterPage() {
                 />
               </div>
 
-              <div className="form-field auth-form">
-                <label>Timezone</label>
-                <select
-                  value={timezone}
-                  onChange={(e) => setTimezone(e.target.value)}
-                  disabled={loading}
-                >
-                  {Intl.supportedValuesOf('timeZone').map((tz) => (
-                    <option key={tz} value={tz}>
-                      {tz}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
               <button
                 type="submit"
                 className="btn-primary auth-submit"
@@ -414,27 +371,6 @@ export default function StudentRegisterPage() {
       </div>
 
       <style jsx>{`
-        select {
-          width: 100%;
-          padding: 12px 14px;
-          font-size: 14.5px;
-          border: 1px solid #d1d5db;
-          border-radius: 10px;
-          background: #fff;
-          color: var(--text);
-          appearance: none;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-          background-repeat: no-repeat;
-          background-position: right 12px center;
-          padding-right: 32px;
-        }
-
-        select:focus {
-          outline: none;
-          border-color: var(--accent);
-          box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
-        }
-
         textarea {
           width: 100%;
           padding: 12px 14px;

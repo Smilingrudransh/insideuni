@@ -2,9 +2,10 @@
 
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
+import { createId } from '@paralleldrive/cuid2';
 import { requireAuth } from '@/lib/auth';
 import prisma from '@/lib/prisma';
-import { Role, EntityType } from '@prisma/client';
+import { Role } from '@prisma/client';
 
 // ============================================================
 // STUDENT REGISTRATION
@@ -13,12 +14,11 @@ import { Role, EntityType } from '@prisma/client';
 export interface RegisterStudentInput {
   firstName: string;
   lastName: string;
-  universityId?: string;
-  enrollmentYear?: number;
+  targetUniversity?: string;
+  targetCountry?: string;
   skills: string[];
   interests: string[];
   bio?: string;
-  timezone?: string;
 }
 
 export async function registerStudent(input: RegisterStudentInput): Promise<void> {
@@ -28,7 +28,8 @@ export async function registerStudent(input: RegisterStudentInput): Promise<void
     throw new Error('User not found in database');
   }
 
-  const existingProfile = await prisma.studentProfile.findUnique({
+  // Check if seeker profile already exists
+  const existingProfile = await prisma.seekerProfile.findUnique({
     where: { userId: user.dbUser.id },
   });
 
@@ -37,38 +38,23 @@ export async function registerStudent(input: RegisterStudentInput): Promise<void
   }
 
   await prisma.$transaction(async (tx) => {
-    // Update user role to STUDENT
+    // Update user role to SEEKER
     await tx.user.update({
       where: { id: user.dbUser!.id },
       data: {
-        role: Role.STUDENT,
+        role: Role.SEEKER,
         name: `${input.firstName} ${input.lastName}`.trim(),
       },
     });
 
-    // Create student profile
-    await tx.studentProfile.create({
+    // Create seeker profile
+    await tx.seekerProfile.create({
       data: {
+        id: createId(),
         userId: user.dbUser!.id,
-        universityId: input.universityId || null,
-        graduationYear: input.enrollmentYear || null,
-        skills: input.skills || [],
-        interests: input.interests || [],
-        bio: input.bio || null,
-      },
-    });
-
-    // Log activity
-    await tx.activityLog.create({
-      data: {
-        actorId: user.dbUser!.id,
-        action: 'STUDENT_REGISTERED',
-        entityType: EntityType.STUDENT_PROFILE,
-        entityId: user.dbUser!.id,
-        metadata: {
-          universityId: input.universityId,
-          enrollmentYear: input.enrollmentYear,
-        },
+        targetUniversity: input.targetUniversity || null,
+        targetCountry: input.targetCountry || null,
+        savedMentors: [],
       },
     });
   });
@@ -84,15 +70,13 @@ export async function registerStudent(input: RegisterStudentInput): Promise<void
 export interface RegisterMentorInput {
   firstName: string;
   lastName: string;
-  currentTitle: string;
-  company: string;
-  yearsOfExperience: number;
+  university: string;
+  course: string;
+  yearOfStudy: number;
   expertise: string[];
-  industries: string[];
+  languages: string[];
   bio?: string;
-  hourlyRate?: number;
-  maxStudents?: number;
-  linkedinUrl?: string;
+  uniEmail?: string;
 }
 
 export async function registerMentor(input: RegisterMentorInput): Promise<void> {
@@ -102,6 +86,7 @@ export async function registerMentor(input: RegisterMentorInput): Promise<void> 
     throw new Error('User not found in database');
   }
 
+  // Check if mentor profile already exists
   const existingProfile = await prisma.mentorProfile.findUnique({
     where: { userId: user.dbUser.id },
   });
@@ -123,31 +108,20 @@ export async function registerMentor(input: RegisterMentorInput): Promise<void> 
     // Create mentor profile
     await tx.mentorProfile.create({
       data: {
+        id: createId(),
         userId: user.dbUser!.id,
-        headline: `${input.currentTitle} at ${input.company}`,
+        university: input.university,
+        universitySlug: input.university.toLowerCase().replace(/\s+/g, '-'),
+        course: input.course,
+        yearOfStudy: input.yearOfStudy,
         bio: input.bio || null,
-        expertise: input.expertise || [],
-        industries: input.industries || [],
-        hourlyRate: input.hourlyRate || null,
-        maxStudents: input.maxStudents || 5,
-        linkedinUrl: input.linkedinUrl || null,
+        uniEmail: input.uniEmail || null,
+        expertiseTags: input.expertise || [],
+        languages: input.languages || [],
         isVerified: false,
-        isAccepting: true,
-      },
-    });
-
-    // Log activity
-    await tx.activityLog.create({
-      data: {
-        actorId: user.dbUser!.id,
-        action: 'MENTOR_REGISTERED',
-        entityType: EntityType.MENTOR_PROFILE,
-        entityId: user.dbUser!.id,
-        metadata: {
-          currentTitle: input.currentTitle,
-          company: input.company,
-          yearsOfExperience: input.yearsOfExperience,
-        },
+        rating: 0,
+        totalSessions: 0,
+        earnings: 0,
       },
     });
   });
@@ -157,27 +131,44 @@ export async function registerMentor(input: RegisterMentorInput): Promise<void> 
 }
 
 // ============================================================
-// GET UNIVERSITIES
+// GET UNIVERSITIES (returns unique universities from mentor profiles)
 // ============================================================
 
 export interface UniversityOption {
-  id: string;
   name: string;
-  country: string;
-  city: string;
+  slug: string;
+  count: number;
 }
 
 export async function getUniversities(): Promise<UniversityOption[]> {
-  const universities = await prisma.university.findMany({
-    where: { isActive: true },
+  const mentors = await prisma.mentorProfile.findMany({
+    where: { isVerified: true },
     select: {
-      id: true,
-      name: true,
-      country: true,
-      city: true,
+      university: true,
+      universitySlug: true,
     },
-    orderBy: { name: 'asc' },
   });
 
-  return universities;
+  // Aggregate unique universities
+  const universityMap = new Map<string, { name: string; count: number }>();
+
+  for (const mentor of mentors) {
+    const existing = universityMap.get(mentor.universitySlug);
+    if (existing) {
+      existing.count++;
+    } else {
+      universityMap.set(mentor.universitySlug, {
+        name: mentor.university,
+        count: 1,
+      });
+    }
+  }
+
+  return Array.from(universityMap.entries())
+    .map(([slug, data]) => ({
+      name: data.name,
+      slug,
+      count: data.count,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 }

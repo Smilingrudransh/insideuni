@@ -84,14 +84,14 @@ export async function getServerUser(): Promise<ServerUser | null> {
       return null;
     }
 
-    // Look up the user in Prisma by firebaseUid
+    // Look up the user in Prisma by email
     const dbUser = await prisma.user.findUnique({
-      where: { firebaseUid: decodedClaims.uid },
+      where: { email: decodedClaims.email },
       select: {
         id: true,
         role: true,
         name: true,
-        avatarUrl: true,
+        profilePhoto: true,
       },
     });
 
@@ -114,7 +114,7 @@ export async function getServerUser(): Promise<ServerUser | null> {
             role: dbUser.role,
             firstName,
             lastName,
-            avatarUrl: dbUser.avatarUrl,
+            avatarUrl: dbUser.profilePhoto,
           }
         : null,
     };

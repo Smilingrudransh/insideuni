@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createId } from "@paralleldrive/cuid2";
 import { getFirebaseAdminAuth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
@@ -32,17 +33,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 2. Upsert the user in Prisma (match on firebaseUid, update lastLoginAt)
+    // 2. Upsert the user in Prisma (match on email)
     const dbUser = await prisma.user.upsert({
-      where: { firebaseUid: uid },
-      update: {
-        lastLoginAt: new Date(),
-      },
+      where: { email },
+      update: {},
       create: {
-        firebaseUid: uid,
+        id: createId(),
         email,
         name: firebaseName || email.split("@")[0],
-        avatarUrl: picture || null,
+        password: null,
       },
     });
 
@@ -71,8 +70,8 @@ export async function POST(request: NextRequest) {
       user: {
         id: dbUser.id,
         role: dbUser.role,
-        firstName,
-        lastName,
+        firstName: dbUser.name.split(' ')[0] || '',
+        lastName: dbUser.name.split(' ').slice(1).join(' ') || '',
       },
     });
 

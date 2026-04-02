@@ -19,17 +19,15 @@ export default function MentorRegisterPage() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [currentTitle, setCurrentTitle] = useState('');
-  const [company, setCompany] = useState('');
-  const [yearsOfExperience, setYearsOfExperience] = useState('');
+  const [university, setUniversity] = useState('');
+  const [course, setCourse] = useState('');
+  const [yearOfStudy, setYearOfStudy] = useState('');
   const [expertise, setExpertise] = useState<string[]>([]);
   const [expertiseInput, setExpertiseInput] = useState('');
-  const [industries, setIndustries] = useState<string[]>([]);
-  const [industryInput, setIndustryInput] = useState('');
+  const [languages, setLanguages] = useState<string[]>([]);
+  const [languageInput, setLanguageInput] = useState('');
   const [bio, setBio] = useState('');
-  const [hourlyRate, setHourlyRate] = useState('');
-  const [maxStudents, setMaxStudents] = useState('5');
-  const [linkedinUrl, setLinkedinUrl] = useState('');
+  const [uniEmail, setUniEmail] = useState('');
 
   const addExpertise = useCallback(() => {
     const trimmed = expertiseInput.trim();
@@ -43,25 +41,25 @@ export default function MentorRegisterPage() {
     setExpertise(expertise.filter(e => e !== item));
   }, [expertise]);
 
-  const addIndustry = useCallback(() => {
-    const trimmed = industryInput.trim();
-    if (trimmed && !industries.includes(trimmed)) {
-      setIndustries([...industries, trimmed]);
-      setIndustryInput('');
+  const addLanguage = useCallback(() => {
+    const trimmed = languageInput.trim();
+    if (trimmed && !languages.includes(trimmed)) {
+      setLanguages([...languages, trimmed]);
+      setLanguageInput('');
     }
-  }, [industryInput, industries]);
+  }, [languageInput, languages]);
 
-  const removeIndustry = useCallback((item: string) => {
-    setIndustries(industries.filter(i => i !== item));
-  }, [industries]);
+  const removeLanguage = useCallback((item: string) => {
+    setLanguages(languages.filter(l => l !== item));
+  }, [languages]);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent, type: 'expertise' | 'industry') => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent, type: 'expertise' | 'language') => {
     if (e.key === 'Enter') {
       e.preventDefault();
       if (type === 'expertise') addExpertise();
-      else addIndustry();
+      else addLanguage();
     }
-  }, [addExpertise, addIndustry]);
+  }, [addExpertise, addLanguage]);
 
   const handleEmailSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,15 +90,13 @@ export default function MentorRegisterPage() {
       await registerMentor({
         firstName,
         lastName,
-        currentTitle,
-        company,
-        yearsOfExperience: parseInt(yearsOfExperience) || 0,
+        university,
+        course,
+        yearOfStudy: parseInt(yearOfStudy) || 1,
         expertise,
-        industries,
+        languages,
         bio: bio || undefined,
-        hourlyRate: hourlyRate ? parseFloat(hourlyRate) : undefined,
-        maxStudents: parseInt(maxStudents) || 5,
-        linkedinUrl: linkedinUrl || undefined,
+        uniEmail: uniEmail || undefined,
       });
 
       // Show pending message before redirect
@@ -138,15 +134,13 @@ export default function MentorRegisterPage() {
       await registerMentor({
         firstName: nameParts[0] || '',
         lastName: nameParts.slice(1).join(' ') || '',
-        currentTitle,
-        company,
-        yearsOfExperience: parseInt(yearsOfExperience) || 0,
+        university,
+        course,
+        yearOfStudy: parseInt(yearOfStudy) || 1,
         expertise,
-        industries,
+        languages,
         bio: bio || undefined,
-        hourlyRate: hourlyRate ? parseFloat(hourlyRate) : undefined,
-        maxStudents: parseInt(maxStudents) || 5,
-        linkedinUrl: linkedinUrl || undefined,
+        uniEmail: uniEmail || undefined,
       });
 
       setShowPendingMessage(true);
@@ -320,42 +314,43 @@ export default function MentorRegisterPage() {
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
-                <div className="form-field auth-form">
-                  <label>Current Title *</label>
-                  <input
-                    type="text"
-                    placeholder="e.g., Software Engineer"
-                    value={currentTitle}
-                    onChange={(e) => setCurrentTitle(e.target.value)}
-                    required
-                    disabled={loading}
-                  />
-                </div>
-                <div className="form-field auth-form">
-                  <label>Company/University *</label>
-                  <input
-                    type="text"
-                    placeholder="e.g., Google / MIT"
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    required
-                    disabled={loading}
-                  />
-                </div>
-              </div>
-
               <div className="form-field auth-form">
-                <label>Years of Experience *</label>
+                <label>University *</label>
                 <input
-                  type="number"
-                  placeholder="e.g., 5"
-                  value={yearsOfExperience}
-                  onChange={(e) => setYearsOfExperience(e.target.value)}
+                  type="text"
+                  placeholder="e.g., MIT, Stanford, IIT Bombay"
+                  value={university}
+                  onChange={(e) => setUniversity(e.target.value)}
                   required
-                  min={0}
                   disabled={loading}
                 />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+                <div className="form-field auth-form">
+                  <label>Course/Degree *</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Computer Science"
+                    value={course}
+                    onChange={(e) => setCourse(e.target.value)}
+                    required
+                    disabled={loading}
+                  />
+                </div>
+                <div className="form-field auth-form">
+                  <label>Year of Study *</label>
+                  <input
+                    type="number"
+                    placeholder="e.g., 2"
+                    value={yearOfStudy}
+                    onChange={(e) => setYearOfStudy(e.target.value)}
+                    required
+                    min={1}
+                    max={10}
+                    disabled={loading}
+                  />
+                </div>
               </div>
 
               <div className="form-field auth-form">
@@ -371,7 +366,7 @@ export default function MentorRegisterPage() {
                   </div>
                   <input
                     type="text"
-                    placeholder="e.g., Machine Learning, Career Coaching, Admissions"
+                    placeholder="e.g., Admissions, Essays, GRE Prep"
                     value={expertiseInput}
                     onChange={(e) => setExpertiseInput(e.target.value)}
                     onKeyDown={(e) => handleKeyDown(e, 'expertise')}
@@ -381,22 +376,22 @@ export default function MentorRegisterPage() {
               </div>
 
               <div className="form-field auth-form">
-                <label>Industries (press Enter to add)</label>
+                <label>Languages (press Enter to add)</label>
                 <div className="tag-input-wrap">
                   <div className="tags">
-                    {industries.map((item) => (
+                    {languages.map((item) => (
                       <span key={item} className="tag">
                         {item}
-                        <button type="button" onClick={() => removeIndustry(item)} disabled={loading}>×</button>
+                        <button type="button" onClick={() => removeLanguage(item)} disabled={loading}>×</button>
                       </span>
                     ))}
                   </div>
                   <input
                     type="text"
-                    placeholder="e.g., Tech, Finance, Healthcare"
-                    value={industryInput}
-                    onChange={(e) => setIndustryInput(e.target.value)}
-                    onKeyDown={(e) => handleKeyDown(e, 'industry')}
+                    placeholder="e.g., English, Hindi, Spanish"
+                    value={languageInput}
+                    onChange={(e) => setLanguageInput(e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(e, 'language')}
                     disabled={loading}
                   />
                 </div>
@@ -414,39 +409,13 @@ export default function MentorRegisterPage() {
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
-                <div className="form-field auth-form">
-                  <label>Hourly Rate (USD)</label>
-                  <input
-                    type="number"
-                    placeholder="e.g., 50"
-                    value={hourlyRate}
-                    onChange={(e) => setHourlyRate(e.target.value)}
-                    min={0}
-                    disabled={loading}
-                  />
-                </div>
-                <div className="form-field auth-form">
-                  <label>Max Students</label>
-                  <input
-                    type="number"
-                    placeholder="e.g., 5"
-                    value={maxStudents}
-                    onChange={(e) => setMaxStudents(e.target.value)}
-                    min={1}
-                    max={50}
-                    disabled={loading}
-                  />
-                </div>
-              </div>
-
               <div className="form-field auth-form">
-                <label>LinkedIn URL</label>
+                <label>University Email (for verification)</label>
                 <input
-                  type="url"
-                  placeholder="https://linkedin.com/in/yourprofile"
-                  value={linkedinUrl}
-                  onChange={(e) => setLinkedinUrl(e.target.value)}
+                  type="email"
+                  placeholder="you@university.edu"
+                  value={uniEmail}
+                  onChange={(e) => setUniEmail(e.target.value)}
                   disabled={loading}
                 />
               </div>

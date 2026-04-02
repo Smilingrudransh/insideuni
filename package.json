@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@daily-co/daily-js": "^0.89.1",
+    "@paralleldrive/cuid2": "^3.3.0",
     "@prisma/client": "^5.22.0",
     "@supabase/supabase-js": "^2.99.3",
     "clsx": "^2.1.1",
