@@ -1,5 +1,5 @@
-import { initializeApp, getApps, cert } from 'firebase-admin/app';
-import { getAuth } from 'firebase-admin/auth';
+import { initializeApp, getApps, cert, type App } from 'firebase-admin/app';
+import { getAuth, type Auth } from 'firebase-admin/auth';
 import { cookies } from 'next/headers';
 import prisma from '@/lib/prisma';
 import type { Role } from '@prisma/client';
@@ -8,20 +8,39 @@ import type { Role } from '@prisma/client';
 // FIREBASE ADMIN INITIALIZATION
 // ============================================================
 
-const firebaseAdminConfig = {
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-  privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-};
+let adminAuth: Auth;
 
-// Initialize Firebase Admin only if not already initialized
-if (!getApps().length) {
-  initializeApp({
-    credential: cert(firebaseAdminConfig),
-  });
+export function getFirebaseAdminAuth(): Auth {
+  if (adminAuth) {
+    return adminAuth;
+  }
+
+  const projectId = process.env.FIREBASE_PROJECT_ID;
+  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+  const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+
+  if (!projectId || !clientEmail || !privateKey) {
+    throw new Error('Firebase Admin environment variables are not set');
+  }
+
+  const firebaseAdminConfig = {
+    projectId,
+    clientEmail,
+    privateKey,
+  };
+
+  let app: App;
+  if (!getApps().length) {
+    app = initializeApp({
+      credential: cert(firebaseAdminConfig),
+    });
+  } else {
+    app = getApps()[0]!;
+  }
+
+  adminAuth = getAuth(app);
+  return adminAuth;
 }
-
-export const adminAuth = getAuth();
 
 // ============================================================
 // TYPES
@@ -59,7 +78,7 @@ export async function getServerUser(): Promise<ServerUser | null> {
     }
 
     // Verify the session cookie
-    const decodedClaims = await adminAuth.verifySessionCookie(sessionCookie, true);
+    const decodedClaims = await getFirebaseAdminAuth().verifySessionCookie(sessionCookie, true);
 
     if (!decodedClaims.uid) {
       return null;
@@ -143,7 +162,7 @@ export async function createSessionCookie(idToken: string): Promise<string> {
   // Set session expiration to 5 days
   const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days in milliseconds
 
-  const sessionCookie = await adminAuth.createSessionCookie(idToken, { expiresIn });
+  const sessionCookie = await getFirebaseAdminAuth().createSessionCookie(idToken, { expiresIn });
 
   return sessionCookie;
 }
